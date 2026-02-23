@@ -4,4 +4,11 @@
 export default {
   failed: 'Action failed',
   success: 'Action was successful',
+  login: {
+    labels: {
+      username: 'Username',
+      password: 'Password',
+      submit: 'Login',
+    },
+  },
 };

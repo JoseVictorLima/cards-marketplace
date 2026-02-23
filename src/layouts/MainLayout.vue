@@ -1,14 +1,12 @@
-<script setup lang="ts">
-// import { ref } from 'vue';
-</script>
+<script setup lang="ts"></script>
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar class="bg-black text-white q-px-md">
         <q-toolbar-title class="text-green-14 text-bold">
           <span>
-            PTM
-            <q-tooltip>PTCG Trade Marketplace</q-tooltip>
+            YTM
+            <q-tooltip>Yu-gi-oh Trade Marketplace</q-tooltip>
           </span>
         </q-toolbar-title>
         <q-btn class="bg-green-14" rounded label="login" />
