@@ -9,10 +9,10 @@ const getCards = async (
   },
 ) => {
   try {
-    const response = await http.get(baseUrl, {
+    const resp = await http.get(baseUrl, {
       params: filter,
     });
-    return response.data;
+    return resp.data;
   } catch (error) {
     return error;
   }

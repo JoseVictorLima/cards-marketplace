@@ -6,9 +6,13 @@ export default {
   success: 'Action was successful',
   login: {
     labels: {
-      username: 'Username',
+      email: 'Email',
       password: 'Password',
       submit: 'Login',
+    },
+    rules: {
+      email: 'Email cannot be empty',
+      password: 'Password cannot be empty',
     },
   },
   components: {
@@ -27,5 +31,6 @@ export default {
   },
   errors: {
     fetch_cards: "Ops! We couldn't load the cards right now.",
+    login_generic: 'Ops! Unable to log in right now.',
   },
 };

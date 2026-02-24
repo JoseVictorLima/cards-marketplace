@@ -3,9 +3,13 @@ export default {
   success: 'Ação foi bem sucedida',
   login: {
     labels: {
-      username: 'Usuário',
+      email: 'E-mail',
       password: 'Senha',
       submit: 'Login',
+    },
+    rules: {
+      email: 'E-mail não pode ser vazio',
+      password: 'Senha não pode ser vazia',
     },
   },
   components: {
@@ -24,5 +28,6 @@ export default {
   },
   errors: {
     fetch_cards: 'Ops! Não conseguimos carregar os cards agora.',
+    login_generic: 'Ops! Não foi possível fazer login agora.',
   },
 };
