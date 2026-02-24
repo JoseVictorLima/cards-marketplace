@@ -17,7 +17,7 @@ const card = ref(props.card);
 const isCardDetailsOpen = ref(false);
 </script>
 <template>
-  <div class="card_body row justify-center items-start q-pa-sm">
+  <div class="card_body row justify-center items-start q-pa-sm" aria-hidden="true">
     <q-img
       :src="card.imageUrl"
       class="card_image cursor-pointer"
@@ -29,8 +29,8 @@ const isCardDetailsOpen = ref(false);
     </h3>
   </div>
 
-  <q-dialog v-model="isCardDetailsOpen">
-    <cardDetails :card="card" />
+  <q-dialog v-model="isCardDetailsOpen" persistent>
+    <cardDetails :card="card" @close="isCardDetailsOpen = false" />
   </q-dialog>
 </template>
 <style scoped lang="scss">
@@ -38,6 +38,7 @@ const isCardDetailsOpen = ref(false);
   &_body {
     position: relative;
     max-width: 220px;
+    min-height: 220px;
     border-width: 2px;
     border-style: solid;
     border-color: rgba(79, 245, 79, 0);
@@ -47,7 +48,7 @@ const isCardDetailsOpen = ref(false);
   }
   &_image {
     height: auto;
-    width: 200px;
+    width: 180px;
   }
   &_name {
     font-size: 1.4rem;

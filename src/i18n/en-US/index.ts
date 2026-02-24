@@ -11,4 +11,21 @@ export default {
       submit: 'Login',
     },
   },
+  components: {
+    card: {
+      description: 'Description',
+    },
+  },
+  utils: {
+    notify: {
+      positive: 'Success.',
+      negative: 'Error.',
+    },
+  },
+  homepage: {
+    no_cards: 'No cards found',
+  },
+  errors: {
+    fetch_cards: "Ops! We couldn't load the cards right now.",
+  },
 };
