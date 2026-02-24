@@ -8,10 +8,14 @@ const getCards = async (
     page: 1,
   },
 ) => {
-  const response = await http.get(baseUrl, {
-    params: filter,
-  });
-  return response.data;
+  try {
+    const response = await http.get(baseUrl, {
+      params: filter,
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
 };
 
 export default { getCards };

@@ -2,14 +2,14 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar class="bg-black text-white q-px-md">
-        <q-toolbar-title class="text-green-14 text-bold">
+      <q-toolbar class="bg-secondary text-white q-px-md">
+        <q-toolbar-title class="text-primary text-bold">
           <span>
             YTM
             <q-tooltip>Yu-gi-oh Trade Marketplace</q-tooltip>
           </span>
         </q-toolbar-title>
-        <q-btn class="bg-green-14" rounded label="login" />
+        <q-btn class="bg-primary text-white" rounded label="login" />
       </q-toolbar>
     </q-header>
 
