@@ -29,8 +29,14 @@ export default {
   homepage: {
     no_cards: 'No cards found',
   },
+  layouts: {
+    main_layout: {
+      logout: 'Logout',
+    },
+  },
   errors: {
     fetch_cards: "Ops! We couldn't load the cards right now.",
     login_generic: 'Ops! Unable to log in right now.',
+    get_user_data: 'Unable to load the user information! Please try again later.',
   },
 };

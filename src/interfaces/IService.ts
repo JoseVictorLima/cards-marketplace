@@ -16,8 +16,12 @@ interface ILoginResult {
 export default interface IService {
   authentication: {
     login: (credentials: { email: string; password: string }) => Promise<ILoginResult>;
-    setToken: (token: string) => void;
+    logout: () => void;
+    setAccessToken: (token: string) => void;
+    getAccessToken: () => string;
+    removeAccessToken: () => void;
     isTokenExpired: (token: string) => boolean;
+    getLoggedUser: () => Promise<IUser>;
   };
   card: {
     getCards: (filter: { rpp: number; page: number }) => Promise<IGetCardsResult>;

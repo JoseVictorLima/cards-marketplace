@@ -26,8 +26,15 @@ export default {
   homepage: {
     no_cards: 'Nenhum card encontrado',
   },
+  layouts: {
+    main_layout: {
+      logout: 'Sair',
+    },
+  },
   errors: {
     fetch_cards: 'Ops! Não conseguimos carregar os cards agora.',
     login_generic: 'Ops! Não foi possível fazer login agora.',
+    get_user_data:
+      'Não foi possível carregar as informações do usuário! Tente novamente mais tarde.',
   },
 };

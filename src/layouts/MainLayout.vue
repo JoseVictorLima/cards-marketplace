@@ -1,8 +1,70 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref, inject } from 'vue';
 import loginCard from 'src/pages/login/LoginCard.vue';
+import services from 'src/services';
+import type { IStores, IUser, IUtils } from 'src/interfaces';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+const $q = useQuasar();
+const { t } = useI18n();
+const $services = services;
+const $stores = inject('$stores') as IStores;
+const $utils = inject('$utils') as IUtils;
+const $router = useRouter();
 const isLoginCardOpen = ref(false);
+const sessionUser = ref<IUser>({} as IUser);
+const isLoading = ref(true);
+const isUserMenuOpen = ref(false);
+const timerId = ref<NodeJS.Timeout>();
+
+// Allows the user menu to remain active when the cursor moves from the menu to the items and vice versa.
+const keepUserMenuOpen = () => {
+  if (timerId.value) {
+    clearTimeout(timerId.value);
+  }
+  if (!isUserMenuOpen.value) isUserMenuOpen.value = true;
+};
+
+// Closes the user menu after a specified period of time.
+const closeUserMenuDebounced = () => {
+  timerId.value = setTimeout(() => {
+    isUserMenuOpen.value = false;
+  }, 50);
+};
+
+function logout() {
+  $services.authentication.logout();
+  $router.go(0);
+}
+
+onMounted(async () => {
+  isLoading.value = true;
+  const token = $services.authentication.getAccessToken();
+
+  //Checks if the access token is still valid and then loads the logged user.
+  if (!!token && !$services.authentication.isTokenExpired(token)) {
+    $q.loading.show();
+    if (!$stores.useUser.getSessionUser.id) {
+      try {
+        await $stores.useUser.setSessionUser();
+        sessionUser.value = $stores.useUser.getSessionUser;
+      } catch (error) {
+        console.log(error);
+        $utils.notify.negative({
+          message: t('errors.get_user_data'),
+          position: 'bottom',
+          timeout: 3000,
+        });
+      }
+    } else {
+      sessionUser.value = $stores.useUser.getSessionUser;
+    }
+    $q.loading.hide();
+  }
+  isLoading.value = false;
+});
 </script>
 <template>
   <q-layout view="lHh Lpr lFf">
@@ -14,12 +76,45 @@ const isLoginCardOpen = ref(false);
             <q-tooltip>Yu-gi-oh Trade Marketplace</q-tooltip>
           </span>
         </q-toolbar-title>
-        <q-btn
-          class="bg-primary text-white"
-          rounded
-          label="login"
-          @click="isLoginCardOpen = true"
-        />
+
+        <div v-if="!isLoading">
+          <q-btn
+            v-if="!sessionUser.id"
+            class="bg-primary text-white"
+            rounded
+            label="login"
+            @click="isLoginCardOpen = true"
+          />
+
+          <div
+            v-else-if="sessionUser.id"
+            class="row justify-end items-center q-gutter-x-sm cursor-pointer"
+            @mouseenter="keepUserMenuOpen()"
+            @mouseleave="closeUserMenuDebounced"
+          >
+            <span class="ellipsis gt-xs text-right" style="min-width: 130px">
+              {{ sessionUser.name }}
+            </span>
+            <q-btn round>
+              <q-avatar text-color="primary" icon="fa-solid fa-circle-user"> </q-avatar>
+            </q-btn>
+
+            <q-menu
+              v-model="isUserMenuOpen"
+              fit
+              square
+              @mouseenter="keepUserMenuOpen"
+              @mouseleave="closeUserMenuDebounced"
+            >
+              <q-list class="bg-secondary" style="min-width: 100px">
+                <q-item class="text-white" clickable @click="logout">
+                  <q-item-section>{{ t('layouts.main_layout.logout') }}</q-item-section>
+                </q-item>
+                <q-separator />
+              </q-list>
+            </q-menu>
+          </div>
+        </div>
       </q-toolbar>
     </q-header>
 

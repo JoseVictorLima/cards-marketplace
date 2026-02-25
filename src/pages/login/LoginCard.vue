@@ -2,17 +2,19 @@
 import { ref, inject } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { IService, IUtils } from 'src/interfaces';
+import { useRouter } from 'vue-router';
 
 const $emit = defineEmits<(e: 'close') => void>();
 const { t } = useI18n();
 const $services = inject('$services') as IService;
 const $utils = inject('$utils') as IUtils;
+const $router = useRouter();
 const loginForm = ref({
   email: '',
   password: '',
 });
 
-// Show or hide password
+// Show or hide password.
 const isPwd = ref(true);
 const isLoadingLogin = ref(false);
 
@@ -23,11 +25,13 @@ async function login() {
       email: loginForm.value.email,
       password: loginForm.value.password,
     });
-    // Checks if api returns error messages
-    if (resp != null && typeof resp === 'object' && 'message' in resp) {
+    // Checks if api returns error messages or resp is null.
+    if (resp === null || (resp != null && typeof resp === 'object' && 'message' in resp)) {
       throw resp.message;
     } else {
-      $services.authentication.setToken(resp.token);
+      // Set token on localstorage and Reload the page, allowing the layout to retrieve the logged-in user's data..
+      $services.authentication.setAccessToken(resp.token);
+      $router.go(0);
     }
   } catch (error) {
     console.log(error);
@@ -35,7 +39,6 @@ async function login() {
       message: t('errors.login_generic'),
       position: 'bottom',
     });
-  } finally {
     isLoadingLogin.value = false;
   }
 }
