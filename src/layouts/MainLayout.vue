@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, inject } from 'vue';
 import loginCard from 'src/pages/login/LoginCard.vue';
+import registerCard from 'src/pages/login/RegisterCard.vue';
 import services from 'src/services';
 import type { IStores, IUser, IUtils } from 'src/interfaces';
 import { useQuasar } from 'quasar';
@@ -14,6 +15,7 @@ const $stores = inject('$stores') as IStores;
 const $utils = inject('$utils') as IUtils;
 const $router = useRouter();
 const isLoginCardOpen = ref(false);
+const isRegisterCardOpen = ref(false);
 const sessionUser = ref<IUser>({} as IUser);
 const isLoading = ref(true);
 const isUserMenuOpen = ref(false);
@@ -37,6 +39,18 @@ const closeUserMenuDebounced = () => {
 function logout() {
   $services.authentication.logout();
   $router.go(0);
+}
+
+function openLoginCard() {
+  if (isRegisterCardOpen.value === true) {
+    isRegisterCardOpen.value = false;
+  }
+  isLoginCardOpen.value = true;
+}
+
+function openRegisterCard() {
+  isRegisterCardOpen.value = true;
+  isLoginCardOpen.value = false;
 }
 
 onMounted(async () => {
@@ -83,7 +97,7 @@ onMounted(async () => {
             class="bg-primary text-white"
             rounded
             label="login"
-            @click="isLoginCardOpen = true"
+            @click="openLoginCard()"
           />
 
           <div
@@ -123,7 +137,11 @@ onMounted(async () => {
     </q-page-container>
 
     <q-dialog v-model="isLoginCardOpen" persistent>
-      <loginCard @close="isLoginCardOpen = false" />
+      <login-card @close="isLoginCardOpen = false" @open-register="openRegisterCard()" />
+    </q-dialog>
+
+    <q-dialog v-model="isRegisterCardOpen">
+      <register-card @close="isRegisterCardOpen = false" @login="openLoginCard()" />
     </q-dialog>
   </q-layout>
 </template>

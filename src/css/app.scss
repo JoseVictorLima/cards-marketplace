@@ -1,1 +1,11 @@
 // app global css in SCSS form
+.ytm {
+  &-rounded {
+    &-sm {
+      border-radius: 0.3125rem !important;
+    }
+    &-md {
+      border-radius: 0.625rem !important;
+    }
+  }
+}

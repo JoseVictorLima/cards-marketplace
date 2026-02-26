@@ -4,7 +4,10 @@ import { useI18n } from 'vue-i18n';
 import type { IService, IUtils } from 'src/interfaces';
 import { useRouter } from 'vue-router';
 
-const $emit = defineEmits<(e: 'close') => void>();
+const $emit = defineEmits<{
+  (e: 'close'): void;
+  (e: 'open-register'): void;
+}>();
 const { t } = useI18n();
 const $services = inject('$services') as IService;
 const $utils = inject('$utils') as IUtils;
@@ -14,8 +17,6 @@ const loginForm = ref({
   password: '',
 });
 
-// Show or hide password.
-const isPwd = ref(true);
 const isLoadingLogin = ref(false);
 
 async function login() {
@@ -39,15 +40,15 @@ async function login() {
       message: t('errors.login_generic'),
       position: 'bottom',
     });
-    isLoadingLogin.value = false;
   }
+  isLoadingLogin.value = false;
 }
 </script>
 <template>
-  <div class="bg-white q-pa-md login_card_body">
+  <div class="bg-white q-pa-md login_card_body ytm-rounded-md">
     <q-form class="q-gutter-y-lg" greedy @submit="login">
       <div class="justify-between items-center row">
-        <div class="text-h6 text-primary">Login</div>
+        <div class="text-h6 text-primary">{{ t('login.labels.login') }}</div>
         <q-btn
           :disable="isLoadingLogin"
           color="secondary"
@@ -60,31 +61,22 @@ async function login() {
       </div>
 
       <div class="q-gutter-y-md">
-        <q-input
+        <ytm-input
           :disable="isLoadingLogin"
-          outlined
           :label="t('login.labels.email')"
           v-model="loginForm.email"
           lazy-rules
-          :rules="[(val) => (val && val.length > 0 ? true : t('login.rules.email'))]"
+          :rules="[(val: string) => (val && val.length > 0 ? true : t('login.rules.email'))]"
         />
-        <q-input
+
+        <ytm-input
           :disable="isLoadingLogin"
-          outlined
           :label="t('login.labels.password')"
-          :type="isPwd ? 'password' : 'text'"
+          type="password"
           v-model="loginForm.password"
           lazy-rules
-          :rules="[(val) => (val && val.length > 0 ? true : t('login.rules.password'))]"
-        >
-          <template v-slot:append>
-            <q-icon
-              class="cursor-pointer text-primary"
-              :name="isPwd ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"
-              @click="isPwd = !isPwd"
-            />
-          </template>
-        </q-input>
+          :rules="[(val: string) => (val && val.length > 0 ? true : t('login.rules.password'))]"
+        />
       </div>
 
       <div class="row justify-around">
@@ -103,6 +95,7 @@ async function login() {
           rounded
           color="secondary"
           :label="'Criar conta'"
+          @click="$emit('open-register')"
         />
       </div>
     </q-form>
@@ -112,7 +105,6 @@ async function login() {
 .login_card {
   &_body {
     min-width: 400px;
-    border-radius: 10px;
   }
 }
 </style>

@@ -17,6 +17,11 @@ export default interface IService {
   authentication: {
     login: (credentials: { email: string; password: string }) => Promise<ILoginResult>;
     logout: () => void;
+    register: (newUser: {
+      name: string;
+      email: string;
+      password: string;
+    }) => Promise<{ userId: string }>;
     setAccessToken: (token: string) => void;
     getAccessToken: () => string;
     removeAccessToken: () => void;

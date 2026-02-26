@@ -1,11 +1,12 @@
 import http from './http';
 import { jwtDecode } from 'jwt-decode';
 
-const baseUrl = '/login';
+const loginBaseUrl = '/login';
+const registerBaseUrl = '/register';
 
 const login = async (credentials = { email: '', password: '' }) => {
   try {
-    const resp = await http.post(baseUrl, credentials);
+    const resp = await http.post(loginBaseUrl, credentials);
     return resp.data;
   } catch (error) {
     return error;
@@ -14,6 +15,15 @@ const login = async (credentials = { email: '', password: '' }) => {
 
 const logout = () => {
   removeAccessToken();
+};
+
+const register = async (newUser: { name: string; email: string; password: string }) => {
+  try {
+    const resp = await http.post(registerBaseUrl, newUser);
+    return resp.data;
+  } catch (error) {
+    return error;
+  }
 };
 
 const isTokenExpired = (token: string) => {
@@ -58,6 +68,7 @@ const getLoggedUser = async () => {
 export default {
   login,
   logout,
+  register,
   isTokenExpired,
   setAccessToken,
   getAccessToken,
