@@ -30,8 +30,8 @@ const isTokenExpired = (token: string) => {
   try {
     if (!token) return true;
     const jwd = jwtDecode<{ exp: number }>(token);
-    const currentTime = Date.now() / 1000;
-    if (jwd != undefined) return jwd.exp < currentTime;
+    const currentTime = Date.now();
+    if (jwd != undefined) return jwd.exp * 1000 < currentTime;
     return true;
   } catch (error) {
     console.log(error);

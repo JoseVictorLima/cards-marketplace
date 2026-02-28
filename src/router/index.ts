@@ -39,7 +39,7 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     const $services = inject('$services') as IService;
     const token = $services.authentication.getAccessToken();
     const isExpired = $services.authentication.isTokenExpired(token);
-    const publicRoutes = ['/'];
+    const publicRoutes = ['/', '/profile:name'];
     if (isExpired) {
       $services.authentication.removeAccessToken();
       // If the user is not accessing a public route and is not logged in, they will be redirected to the HomePage.

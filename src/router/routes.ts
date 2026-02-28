@@ -10,7 +10,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/profile/:name',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/profile/ProfilePage.vue') }],
+    children: [
+      { path: '', component: () => import('pages/profile/ProfilePage.vue') },
+      { path: 'add-card', component: () => import('pages/profile/ProfileAddCard.vue') },
+    ],
   },
 
   // Always leave this as last one,

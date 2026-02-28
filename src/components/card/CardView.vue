@@ -6,6 +6,7 @@ import cardDetails from './CardDetails.vue';
 interface props {
   card: ICard;
   size?: 'sm' | 'md';
+  noDetails?: boolean;
 }
 
 const props = withDefaults(defineProps<props>(), {
@@ -13,6 +14,7 @@ const props = withDefaults(defineProps<props>(), {
     return {} as ICard;
   },
   size: 'md',
+  noDetails: false,
 });
 
 const card = ref(props.card);
@@ -22,18 +24,20 @@ const isCardDetailsOpen = ref(false);
   <div :class="`card_body_${size} row justify-center items-start q-pa-sm`" aria-hidden="true">
     <q-img
       :src="card.imageUrl"
-      :class="`card_image_${size} cursor-pointer`"
+      :class="`col-12 card_image_${size} ${noDetails ? 'no-pointer-events' : 'cursor-pointer'}`"
       @click="isCardDetailsOpen = true"
     />
-    <h3 :class="`col-12 card_name_${size} q-my-none q-px-sm ellipsis text-left`">
-      {{ card.name }}
-      <q-tooltip>
-        <template v-slot:default>
-          <span class="card_tooltip">
-            {{ card.name }}
-          </span>
-        </template>
-      </q-tooltip>
+    <h3 :class="`col-12 card_name_${size} q-my-none row justify-start`">
+      <span class="ellipsis">
+        {{ card.name }}
+        <q-tooltip>
+          <template v-slot:default>
+            <span class="card_tooltip">
+              {{ card.name }}
+            </span>
+          </template>
+        </q-tooltip>
+      </span>
     </h3>
   </div>
 
@@ -45,25 +49,25 @@ const isCardDetailsOpen = ref(false);
 .card {
   &_body {
     position: relative;
-    max-width: 220px;
-    min-height: 220px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: rgba(79, 245, 79, 0);
     &_sm {
       @extend .card_body;
-      max-width: 160px;
+      max-width: 120px;
       min-height: 160px;
     }
     &_md {
       @extend .card_body;
-      max-width: 220px;
+      max-width: 180px;
       min-height: 220px;
     }
   }
-  &_body:hover {
-    border-color: $primary;
-  }
+  // &-border {
+  //   border-width: 2px;
+  //   border-style: solid;
+  //   border-color: rgba(79, 245, 79, 0);
+  // }
+  // &_border:hover {
+  //   border-color: $primary;
+  // }
   &_image {
     height: auto;
     &_sm {

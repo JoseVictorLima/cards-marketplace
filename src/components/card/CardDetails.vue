@@ -21,10 +21,10 @@ const { t } = useI18n();
         <q-img :src="card.imageUrl" class="card_details_image" />
       </div>
 
-      <div class="col-12 col-md-6 row items-start content-stretch">
+      <div class="col-12 col-md-6 row items-start">
         <h3 class="col-12 col-md-10 card_details_name q-my-sm text-left">{{ card.name }}</h3>
 
-        <div class="col-grow">
+        <div class="">
           <span class="q-my-sm">
             {{ t('components.card.description') }}
           </span>
