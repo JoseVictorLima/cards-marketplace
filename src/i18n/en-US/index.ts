@@ -58,6 +58,7 @@ export default {
   },
   layouts: {
     main_layout: {
+      profile: 'My profile',
       logout: 'Logout',
     },
   },
@@ -65,7 +66,7 @@ export default {
     register: 'Registration completed',
   },
   errors: {
-    fetch_cards: "Ops! We couldn't load the cards right now.",
+    get_cards: "Ops! We couldn't load the cards right now.",
     login_generic: 'Ops! Unable to log in right now.',
     get_user_data: 'Ops! Unable to load the user information. Please try again later.',
     register_generic: 'Ops! Registration was not possible. Please try again later.',

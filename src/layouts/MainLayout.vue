@@ -20,6 +20,20 @@ const sessionUser = ref<IUser>({} as IUser);
 const isLoading = ref(true);
 const isUserMenuOpen = ref(false);
 const timerId = ref<NodeJS.Timeout>();
+const sessionUserMenuOptions = [
+  {
+    label: t('layouts.main_layout.profile'),
+    action: async () => {
+      await $router.push(`/profile/${sessionUser.value.name}`);
+    },
+  },
+  {
+    label: t('layouts.main_layout.logout'),
+    action: () => {
+      logout();
+    },
+  },
+];
 
 // Allows the user menu to remain active when the cursor moves from the menu to the items and vice versa.
 const keepUserMenuOpen = () => {
@@ -53,11 +67,9 @@ function openRegisterCard() {
   isLoginCardOpen.value = false;
 }
 
-onMounted(async () => {
-  isLoading.value = true;
+// Checks if the access token is still valid and then loads the logged user.
+async function getLoggedUser() {
   const token = $services.authentication.getAccessToken();
-
-  //Checks if the access token is still valid and then loads the logged user.
   if (!!token && !$services.authentication.isTokenExpired(token)) {
     $q.loading.show();
     if (!$stores.useUser.getSessionUser.id) {
@@ -77,6 +89,11 @@ onMounted(async () => {
     }
     $q.loading.hide();
   }
+}
+
+onMounted(async () => {
+  isLoading.value = true;
+  await getLoggedUser();
   isLoading.value = false;
 });
 </script>
@@ -85,7 +102,7 @@ onMounted(async () => {
     <q-header elevated>
       <q-toolbar class="bg-secondary text-white q-px-md">
         <q-toolbar-title class="text-primary text-bold">
-          <span>
+          <span class="cursor-pointer" @click="$router.push('/')">
             YTM
             <q-tooltip>Yu-gi-oh Trade Marketplace</q-tooltip>
           </span>
@@ -109,9 +126,9 @@ onMounted(async () => {
             <span class="ellipsis gt-xs text-right" style="min-width: 130px">
               {{ sessionUser.name }}
             </span>
-            <q-btn round>
-              <q-avatar text-color="primary" icon="fa-solid fa-circle-user"> </q-avatar>
-            </q-btn>
+            <!-- <q-btn round> -->
+            <q-avatar text-color="primary" icon="fa-solid fa-circle-user" size="3.4375 rem" />
+            <!-- </q-btn> -->
 
             <q-menu
               v-model="isUserMenuOpen"
@@ -121,8 +138,14 @@ onMounted(async () => {
               @mouseleave="closeUserMenuDebounced"
             >
               <q-list class="bg-secondary" style="min-width: 100px">
-                <q-item class="text-white" clickable @click="logout">
-                  <q-item-section>{{ t('layouts.main_layout.logout') }}</q-item-section>
+                <q-item
+                  v-for="(option, i) in sessionUserMenuOptions"
+                  :key="`option-${i}`"
+                  class="text-white"
+                  clickable
+                  @click="option.action()"
+                >
+                  <q-item-section>{{ option.label }}</q-item-section>
                 </q-item>
                 <q-separator />
               </q-list>

@@ -28,7 +28,7 @@ const { t } = useI18n();
           <span class="q-my-sm">
             {{ t('components.card.description') }}
           </span>
-          <p class="bg-grey-4 q-pa-xs">{{ card.description }}</p>
+          <p class="bg-grey-4 q-pa-xs card_details_description">{{ card.description }}</p>
         </div>
       </div>
     </div>
@@ -57,6 +57,9 @@ const { t } = useI18n();
     font-size: 1.5rem;
     line-height: 1.5rem;
     font-weight: bold;
+  }
+  &_description {
+    white-space: pre-wrap;
   }
   &_image {
     height: auto;

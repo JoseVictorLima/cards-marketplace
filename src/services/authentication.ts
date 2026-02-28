@@ -51,20 +51,6 @@ const removeAccessToken = () => {
   localStorage.removeItem('access_token');
 };
 
-const getLoggedUser = async () => {
-  try {
-    const token = getAccessToken();
-    const resp = await http.get('/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return resp.data;
-  } catch (error) {
-    return error;
-  }
-};
-
 export default {
   login,
   logout,
@@ -73,5 +59,4 @@ export default {
   setAccessToken,
   getAccessToken,
   removeAccessToken,
-  getLoggedUser,
 };

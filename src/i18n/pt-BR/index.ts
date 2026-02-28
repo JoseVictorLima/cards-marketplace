@@ -55,6 +55,7 @@ export default {
   },
   layouts: {
     main_layout: {
+      profile: 'Meu perfil',
       logout: 'Sair',
     },
   },
@@ -62,7 +63,7 @@ export default {
     register: 'Cadastro concluído',
   },
   errors: {
-    fetch_cards: 'Ops! Não conseguimos carregar os cards agora.',
+    get_cards: 'Ops! Não conseguimos carregar os cards agora.',
     login_generic: 'Ops! Não foi possível fazer login agora.',
     get_user_data:
       'Ops! Não foi possível carregar as informações do usuário. Tente novamente mais tarde.',
