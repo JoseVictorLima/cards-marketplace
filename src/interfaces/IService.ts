@@ -33,5 +33,6 @@ export default interface IService {
   me: {
     getSessionUser: () => Promise<IUser>;
     getSessionUserCards: () => Promise<ICard[]>;
+    addCards: (cardIds: string[]) => Promise<void>;
   };
 }

@@ -3,6 +3,7 @@ import { inject, onMounted, ref } from 'vue';
 import type { ICard, IService } from 'src/interfaces';
 import CardView from 'src/components/card/CardView.vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 interface props {
   profileName: string;
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<props>(), {
 });
 const $router = useRouter();
 const $services = inject('$services') as IService;
+const { t } = useI18n();
 const pageUserCards = ref([] as ICard[]);
 const isProfileCardsLoading = ref(false);
 
@@ -49,11 +51,13 @@ onMounted(async () => {
     <div
       :class="`row ${$q.screen.lt.sm ? 'justify-center' : 'justify-between'} q-mb-sm q-gutter-x-sm`"
     >
-      <h3
-        :class="`text-primary q-my-none profile_cards_title ${$q.screen.lt.sm ? 'text-center' : 'text-left'}`"
+      <span
+        :class="`text-primary q-my-sm ytm-font-lg ${$q.screen.lt.sm ? 'text-center' : 'text-left'}`"
       >
-        <b>Minhas cartas</b>
-      </h3>
+        <b>
+          {{ isSessionUser ? t('profile.cards.title_session_user') : t('profile.cards.title') }}
+        </b>
+      </span>
       <div v-if="isSessionUser" class="row items-center">
         <q-btn
           flat
@@ -61,10 +65,14 @@ onMounted(async () => {
           :round="$q.screen.gt.xs ? false : true"
           :rounded="$q.screen.gt.xs ? true : false"
           icon="fa-solid fa-plus"
-          :label="$q.screen.gt.xs ? 'Adicionar carta' : ''"
+          :label="$q.screen.gt.xs ? t('profile.cards.add') : ''"
           @click="addCard()"
         >
-          <q-tooltip v-if="$q.screen.lt.sm"> Adicionar carta </q-tooltip>
+          <q-tooltip v-if="$q.screen.lt.sm">
+            <template v-slot:default>
+              <span class="ytm-font-sm"> {{ t('profile.cards.add') }} </span>
+            </template>
+          </q-tooltip>
         </q-btn>
       </div>
     </div>
@@ -93,17 +101,10 @@ onMounted(async () => {
 
       <div v-else class="col-auto full-height">
         <div class="text-center q-py-md text-grey-7">
-          <h3 class="q-mb-sm" style="font-size: 1.5rem">Nenhuma carta encontrada</h3>
+          <h3 class="q-mb-sm ytm-font-md">{{ t('profile.cards.no_cards') }}</h3>
           <q-icon name="fa-regular fa-face-frown" size="md" />
         </div>
       </div>
     </div>
   </div>
 </template>
-<style scoped lang="scss">
-.profile_cards {
-  &_title {
-    font-size: 1.8rem;
-  }
-}
-</style>

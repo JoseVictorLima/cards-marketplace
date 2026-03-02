@@ -7,6 +7,7 @@ interface props {
   card: ICard;
   size?: 'sm' | 'md';
   noDetails?: boolean;
+  imageOnly?: boolean;
 }
 
 const props = withDefaults(defineProps<props>(), {
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<props>(), {
   },
   size: 'md',
   noDetails: false,
+  imageOnly: false,
 });
 
 const card = ref(props.card);
@@ -27,12 +29,12 @@ const isCardDetailsOpen = ref(false);
       :class="`col-12 card_image_${size} ${noDetails ? 'no-pointer-events' : 'cursor-pointer'}`"
       @click="isCardDetailsOpen = true"
     />
-    <h3 :class="`col-12 card_name_${size} q-my-none row justify-start`">
+    <h3 v-if="!imageOnly" :class="`col-12 ytm-font-${size} q-my-none row justify-start`">
       <span class="ellipsis">
         {{ card.name }}
         <q-tooltip>
           <template v-slot:default>
-            <span class="card_tooltip">
+            <span class="ytm-font-sm">
               {{ card.name }}
             </span>
           </template>

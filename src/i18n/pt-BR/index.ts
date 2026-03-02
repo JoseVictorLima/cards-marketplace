@@ -39,6 +39,30 @@ export default {
       confirm_password: 'Senhas estão diferentes',
     },
   },
+  profile: {
+    tabs: {
+      cards: 'Cartas',
+      trades: 'Trocas',
+    },
+    cards: {
+      title: 'Cartas',
+      title_session_user: 'Minhas cartas',
+      add: 'Adicionar carta',
+      no_cards: 'Nenhuma carta encontrada',
+    },
+    add_cards: {
+      title: 'Adicionar cartas',
+      info: 'Selecione as cartas que deseja adicionar à sua conta.',
+      add: 'Adicionar',
+      no_cards: 'Nenhuma carta encontrada',
+      confirm: {
+        title: 'Revisar cartas selecionadas',
+        description: 'Descrição:',
+        remove: 'Remover Carta',
+        save: 'Confirmar',
+      },
+    },
+  },
   components: {
     card: {
       description: 'Descrição',
@@ -61,12 +85,14 @@ export default {
   },
   success: {
     register: 'Cadastro concluído',
+    add_card: 'Cartas adicionadas',
   },
   errors: {
     get_cards: 'Ops! Não conseguimos carregar os cards agora.',
     login_generic: 'Ops! Não foi possível fazer login agora.',
-    get_user_data:
-      'Ops! Não foi possível carregar as informações do usuário. Tente novamente mais tarde.',
-    register_generic: 'Ops! Não foi possível realizar o cadastro! Tente novamente mais tarde.',
+    get_user_data: 'Ops! Não foi possível carregar as informações do usuário. Tente mais tarde.',
+    register_generic: 'Ops! Não foi possível realizar o cadastro! Tente mais tarde.',
+    get_available_cards: 'Não foi possível carregar mais cartas.',
+    add_card: 'Não foi possível adicionar as cartas selecionadas! Tente mais tarde',
   },
 };

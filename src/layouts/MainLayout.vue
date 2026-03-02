@@ -29,8 +29,8 @@ const sessionUserMenuOptions = [
   },
   {
     label: t('layouts.main_layout.logout'),
-    action: () => {
-      logout();
+    action: async () => {
+      await logout();
     },
   },
 ];
@@ -50,9 +50,11 @@ const closeUserMenuDebounced = () => {
   }, 50);
 };
 
-function logout() {
+async function logout() {
   $services.authentication.logout();
-  $router.go(0);
+  $stores.useUser.resetSessionUser();
+  sessionUser.value = {} as IUser;
+  await $router.push('/');
 }
 
 function openLoginCard() {
@@ -104,7 +106,11 @@ onMounted(async () => {
         <q-toolbar-title class="text-primary text-bold">
           <span class="cursor-pointer" @click="$router.push('/')">
             YTM
-            <q-tooltip>Yu-gi-oh Trade Marketplace</q-tooltip>
+            <q-tooltip>
+              <template v-slot:default>
+                <span class="ytm-font-sm"> Yu-gi-oh Trade Marketplace </span>
+              </template>
+            </q-tooltip>
           </span>
         </q-toolbar-title>
 
@@ -123,7 +129,7 @@ onMounted(async () => {
             @mouseenter="keepUserMenuOpen()"
             @mouseleave="closeUserMenuDebounced"
           >
-            <span class="ellipsis gt-xs text-right" style="min-width: 130px">
+            <span class="ellipsis gt-xs text-right ytm-font-sm" style="min-width: 130px">
               {{ sessionUser.name }}
             </span>
             <!-- <q-btn round> -->

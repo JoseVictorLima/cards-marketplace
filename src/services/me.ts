@@ -31,7 +31,26 @@ const getSessionUserCards = async () => {
   }
 };
 
+const addCards = async (cardIds: string[] = []) => {
+  try {
+    const token = authentication.getAccessToken();
+    const resp = await http.post(
+      `${baseUrl}/cards`,
+      { cardIds },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return resp.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default {
   getSessionUser,
   getSessionUserCards,
+  addCards,
 };

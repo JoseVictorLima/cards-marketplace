@@ -90,7 +90,9 @@ async function register() {
   <div class="bg-white q-pa-md ytm-rounded-md register_card_body">
     <q-form class="q-gutter-y-lg" @submit="register" greedy>
       <div class="justify-between items-center row">
-        <div class="text-h6 text-primary">{{ t('register.label.register') }}</div>
+        <div class="ytm-font-lg text-primary">
+          <b>{{ t('register.label.register') }}</b>
+        </div>
         <q-btn
           :disable="isRegisterLoading"
           color="secondary"

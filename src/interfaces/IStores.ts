@@ -4,5 +4,6 @@ export default interface IStores {
   useUser: {
     getSessionUser: IUser;
     setSessionUser: () => Promise<void>;
+    resetSessionUser: () => void;
   };
 }

@@ -3,14 +3,19 @@ import { ref, onMounted, inject, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import type { IService, IStores, IUser } from 'src/interfaces';
 import profileCards from './ProfileCards.vue';
+import { useI18n } from 'vue-i18n';
 
 const $route = useRoute();
 const $stores = inject('$stores') as IStores;
 const $services = inject('$services') as IService;
+const { t } = useI18n();
 const profileUser = ref({} as IUser);
 const sessionUser = ref({} as IUser);
+const isSessonUser = ref(false);
 const activeTab = ref('cards');
 const isProfileLoading = ref(true);
+
+const profileCardsKey = ref(0);
 
 async function loadPage() {
   isProfileLoading.value = true;
@@ -24,26 +29,30 @@ function getProfileUser() {
   if (sessionUser.value && $route.params.name === sessionUser.value.name) {
     // Load logged user page info
     profileUser.value = sessionUser.value;
+    isSessonUser.value = true;
   } else {
     // Load other user's page info
     if ($route.params.name) profileUser.value.name = $route.params.name as string;
+    isSessonUser.value = false;
   }
   profileUser.value.name = $route.params.name as string;
 }
 
 // Checks if the access token is still valid and then loads the logged user.
 async function getLoggedUser() {
-  const token = $services.authentication.getAccessToken();
-  if (!!token && !$services.authentication.isTokenExpired(token)) {
-    if (!$stores.useUser.getSessionUser.id) {
-      try {
-        await $stores.useUser.setSessionUser();
+  if (!sessionUser.value.id) {
+    const token = $services.authentication.getAccessToken();
+    if (!!token && !$services.authentication.isTokenExpired(token)) {
+      if (!$stores.useUser.getSessionUser.id) {
+        try {
+          await $stores.useUser.setSessionUser();
+          sessionUser.value = $stores.useUser.getSessionUser;
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
         sessionUser.value = $stores.useUser.getSessionUser;
-      } catch (error) {
-        console.log(error);
       }
-    } else {
-      sessionUser.value = $stores.useUser.getSessionUser;
     }
   }
 }
@@ -81,7 +90,7 @@ onMounted(async () => {
       <div class="col-12 row justify-center q-my-md">
         <q-icon class="text-primary" name="fa-solid fa-circle-user" size="8rem" />
       </div>
-      <span class="col-12 text-white text-center profile_name">
+      <span class="col-12 text-white text-center ytm-font-lg">
         {{ profileUser.name }}
       </span>
     </div>
@@ -93,13 +102,13 @@ onMounted(async () => {
           :disable="isProfileLoading"
           name="cards"
           icon="fa-solid fa-layer-group"
-          :label="$q.screen.gt.xs ? 'Cartas' : ''"
+          :label="$q.screen.gt.xs ? t('profile.tabs.cards') : ''"
         />
         <q-tab
           :disable="isProfileLoading"
           name="trades"
           icon="fa-solid fa-handshake"
-          :label="$q.screen.gt.xs ? 'Trocas' : ''"
+          :label="$q.screen.gt.xs ? t('profile.tabs.trades') : ''"
         />
       </q-tabs>
     </div>
@@ -121,7 +130,8 @@ onMounted(async () => {
         <q-tab-panel name="cards">
           <profile-cards
             :profile-name="profileUser.name"
-            :isSessionUser="sessionUser.id === profileUser.id"
+            :isSessionUser="isSessonUser"
+            :key="profileCardsKey"
           />
         </q-tab-panel>
         <q-tab-panel name="trades"> Minhas trocas </q-tab-panel>
@@ -136,9 +146,6 @@ onMounted(async () => {
   }
   &_card {
     min-height: 200px;
-  }
-  &_name {
-    font-size: 20px;
   }
 }
 </style>

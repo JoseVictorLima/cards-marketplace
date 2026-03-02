@@ -36,14 +36,14 @@ export default defineRouter(function (/* { store, ssrContext } */) {
   });
 
   Router.beforeEach((to) => {
+    const isPublicRoute = to.meta.public as boolean;
     const $services = inject('$services') as IService;
     const token = $services.authentication.getAccessToken();
     const isExpired = $services.authentication.isTokenExpired(token);
-    const publicRoutes = ['/', '/profile:name'];
     if (isExpired) {
       $services.authentication.removeAccessToken();
       // If the user is not accessing a public route and is not logged in, they will be redirected to the HomePage.
-      if (!publicRoutes.includes(to.path)) return { path: '/' };
+      if (!isPublicRoute) return { path: '/' };
     }
   });
 

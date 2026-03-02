@@ -15,5 +15,9 @@ export const userStore = defineStore('user', () => {
     else sessionUser.value = {} as IUser;
   }
 
-  return { sessionUser, getSessionUser, setSessionUser };
+  function resetSessionUser() {
+    sessionUser.value = {} as IUser;
+  }
+
+  return { sessionUser, getSessionUser, setSessionUser, resetSessionUser };
 });
