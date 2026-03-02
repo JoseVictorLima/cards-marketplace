@@ -40,10 +40,6 @@ export default {
     },
   },
   profile: {
-    tabs: {
-      cards: 'Cartas',
-      trades: 'Trocas',
-    },
     cards: {
       title: 'Cartas',
       title_session_user: 'Minhas cartas',

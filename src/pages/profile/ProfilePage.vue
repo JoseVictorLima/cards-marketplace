@@ -3,19 +3,14 @@ import { ref, onMounted, inject, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import type { IService, IStores, IUser } from 'src/interfaces';
 import profileCards from './ProfileCards.vue';
-import { useI18n } from 'vue-i18n';
 
 const $route = useRoute();
 const $stores = inject('$stores') as IStores;
 const $services = inject('$services') as IService;
-const { t } = useI18n();
 const profileUser = ref({} as IUser);
 const sessionUser = ref({} as IUser);
 const isSessonUser = ref(false);
-const activeTab = ref('cards');
 const isProfileLoading = ref(true);
-
-const profileCardsKey = ref(0);
 
 async function loadPage() {
   isProfileLoading.value = true;
@@ -28,7 +23,7 @@ async function loadPage() {
 function getProfileUser() {
   if (sessionUser.value && $route.params.name === sessionUser.value.name) {
     // Load logged user page info
-    profileUser.value = sessionUser.value;
+    profileUser.value = { ...sessionUser.value };
     isSessonUser.value = true;
   } else {
     // Load other user's page info
@@ -95,47 +90,14 @@ onMounted(async () => {
       </span>
     </div>
 
-    <q-separator color="grey-9" />
-    <div class="bg-secondary row justify-center q-py-xs">
-      <q-tabs class="text-white" v-model="activeTab">
-        <q-tab
-          :disable="isProfileLoading"
-          name="cards"
-          icon="fa-solid fa-layer-group"
-          :label="$q.screen.gt.xs ? t('profile.tabs.cards') : ''"
-        />
-        <q-tab
-          :disable="isProfileLoading"
-          name="trades"
-          icon="fa-solid fa-handshake"
-          :label="$q.screen.gt.xs ? t('profile.tabs.trades') : ''"
-        />
-      </q-tabs>
-    </div>
-
     <!-- Loading -->
     <div v-if="isProfileLoading" class="col-grow column justify-center items-center q-pa-md">
       <q-spinner color="primary" size="50px" />
     </div>
     <!-- Loading -->
 
-    <div v-else class="col-grow column">
-      <q-tab-panels
-        v-model="activeTab"
-        keep-alive
-        :keep-alive-include="['cards', 'trades']"
-        animated
-        class="col bg-grey-3"
-      >
-        <q-tab-panel name="cards">
-          <profile-cards
-            :profile-name="profileUser.name"
-            :isSessionUser="isSessonUser"
-            :key="profileCardsKey"
-          />
-        </q-tab-panel>
-        <q-tab-panel name="trades"> Minhas trocas </q-tab-panel>
-      </q-tab-panels>
+    <div v-else class="col-grow column q-mt-sm">
+      <profile-cards :profile-name="profileUser.name" :isSessionUser="isSessonUser" />
     </div>
   </div>
 </template>
