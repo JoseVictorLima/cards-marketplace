@@ -37,48 +37,51 @@ onMounted(async () => {
   await getCards();
 });
 </script>
-<template>
-  <div class="q-px-sm q-py-md homepage_body bg-grey-3">
-    <div class="col-12 col-md-11 justify-center">
-      <!-- Loading -->
-      <div v-if="isCardLoading" class="q-pa-md fullscreen flex flex-center">
-        <q-spinner-dots color="primary" size="50px" />
-      </div>
-      <!-- Loading -->
+<template class="bg-grey-3">
+  <div class="q-px-sm q-py-md home_card_body col-12 col-md-11 relative-position justify-center">
+    <!-- Loading -->
+    <div v-if="isCardLoading" class="q-pa-md absolute-full flex flex-center">
+      <q-spinner color="primary" size="50px" />
+    </div>
+    <!-- Loading -->
 
-      <div v-else>
-        <div v-if="cards.length > 0" class="row justify-center q-px-md">
-          <ul
-            :class="`col-12 col-sm-11 row ${$q.screen.lt.sm ? 'justify-center' : 'justify-start'} items-center`"
-            style="list-style: none; gap: 0.8rem; padding: 0; margin: 0"
+    <div v-else>
+      <div v-if="cards.length > 0" class="row justify-center q-px-md">
+        <ul
+          :class="`col-12 col-sm-11 row ${$q.screen.lt.sm ? 'justify-center' : 'justify-start'} items-center home_card_list`"
+        >
+          <li
+            :class="`${$q.screen.lt.sm ? 'col-12 row justify-center' : ''}`"
+            v-for="card in cards"
+            :key="card.id"
           >
-            <li
-              :class="`${$q.screen.lt.sm ? 'col-12 row justify-center' : ''}`"
-              v-for="card in cards"
-              :key="card.id"
-            >
-              <card-view :card="card" />
-            </li>
-          </ul>
-        </div>
+            <card-view :card="card" />
+          </li>
+        </ul>
+      </div>
 
-        <div v-else class="fullscreen flex flex-center">
-          <div class="text-center q-py-md text-grey-7">
-            <h3 class="homepage_no_cards">{{ t('homepage.no_cards') }}</h3>
-            <q-icon name="fa-regular fa-face-frown" size="xl" />
-          </div>
+      <div v-else class="fullscreen flex flex-center">
+        <div class="text-center q-py-md text-grey-7">
+          <h3 class="home_card_no_cards">{{ t('home.cards.no_cards') }}</h3>
+          <q-icon name="fa-regular fa-face-frown" size="xl" />
         </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped lang="scss">
-.homepage {
+.home_card {
   &_body {
     min-height: 94vh;
   }
   &_no_cards {
     font-size: 2rem;
+  }
+  &_list {
+    list-style: none;
+    gap: 0.8rem;
+    padding: 0;
+    margin: 0;
   }
 }
 </style>

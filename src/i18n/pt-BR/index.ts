@@ -70,18 +70,47 @@ export default {
       negative: 'Erro.',
     },
   },
-  homepage: {
-    no_cards: 'Nenhum card encontrado',
+  home: {
+    cards: {
+      no_cards: 'Nenhuma carta encontrada',
+    },
+    trades: {
+      title: 'Trocas Realizadas',
+      filter: {
+        items_per_page: 'items por página',
+      },
+      pagination: {
+        previous: 'Anterior',
+        next: 'Próxima',
+      },
+      name: 'Solicitante:',
+      date: 'Data:',
+      offering: 'Cartas oferecidas:',
+      receiving: 'Cartas recebidas:',
+      no_trades: 'Nehuma troca encontrada',
+      delete: {
+        title: 'Apagar Troca',
+        description: 'Deseja realmente apagar esta troca?',
+        info: 'Esta ação não poderá ser desfeita!',
+        cancel: 'Cancelar',
+        delete: 'Apagar',
+      },
+    },
   },
   layouts: {
     main_layout: {
       profile: 'Meu perfil',
       logout: 'Sair',
+      navigation: {
+        cards: 'Cartas',
+        trades: 'Trocas',
+      },
     },
   },
   success: {
-    register: 'Cadastro concluído',
-    add_card: 'Cartas adicionadas',
+    register: 'Cadastro concluído.',
+    add_card: 'Cartas adicionadas.',
+    delete_trade: 'Troca apagada.',
   },
   errors: {
     get_cards: 'Ops! Não conseguimos carregar os cards agora.',
@@ -90,5 +119,6 @@ export default {
     register_generic: 'Ops! Não foi possível realizar o cadastro! Tente mais tarde.',
     get_available_cards: 'Não foi possível carregar mais cartas.',
     add_card: 'Não foi possível adicionar as cartas selecionadas! Tente mais tarde',
+    delete_trade: 'Não foi possível apagar a troca! Tente mais tarde.',
   },
 };

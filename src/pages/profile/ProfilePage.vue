@@ -65,8 +65,8 @@ onMounted(async () => {
   await loadPage();
 });
 </script>
-<template>
-  <div class="column bg-grey-3 profile_body">
+<template class="bg-grey-3">
+  <div class="column profile_body">
     <!-- Loading -->
     <div
       v-if="isProfileLoading"

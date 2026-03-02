@@ -73,18 +73,47 @@ export default {
       negative: 'Error.',
     },
   },
-  homepage: {
-    no_cards: 'No cards found',
+  home: {
+    cards: {
+      no_cards: 'No cards found',
+    },
+    trades: {
+      title: 'Trades Made',
+      filter: {
+        items_per_page: 'items per page',
+      },
+      pagination: {
+        previous: 'Previous',
+        next: 'Next',
+      },
+      name: 'Requester:',
+      date: 'Date:',
+      offering: 'Cards offered:',
+      receiving: 'Cards received:',
+      no_trades: 'No trades found',
+      delete: {
+        title: 'Delete Trade',
+        description: 'Do you really want to delete this trade?',
+        info: 'This action cannot be undone!',
+        cancel: 'Cancel',
+        delete: 'Delete',
+      },
+    },
   },
   layouts: {
     main_layout: {
       profile: 'My profile',
       logout: 'Logout',
+      navigation: {
+        cards: 'Cards',
+        trades: 'Trades',
+      },
     },
   },
   success: {
     register: 'Registration completed',
     add_card: 'Cards added',
+    delete_trade: 'Trade deleted',
   },
   errors: {
     get_cards: "Ops! We couldn't load the cards right now.",
@@ -93,5 +122,6 @@ export default {
     register_generic: 'Ops! Registration was not possible. Please try again later.',
     get_available_cards: 'It was not possible to load more cards.',
     add_card: 'Unable to add the selected cards! Please try again later.',
+    delete_trade: 'Unable to delete the trade! Please try again later.',
   },
 };

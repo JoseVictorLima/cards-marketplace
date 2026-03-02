@@ -111,10 +111,10 @@ onMounted(async () => {
   isAddCardLoading.value = false;
 });
 </script>
-<template>
-  <div class="column bg-grey-3 q-pa-md profile_add_card_body">
+<template enter-class="bg-grey-3">
+  <div class="column q-pa-md profile_add_card_body">
     <div
-      :class="` ${$q.screen.lt.sm ? 'column' : 'row justify-between'} items-center q-my-md q-px-md`"
+      :class="` ${$q.screen.lt.sm ? 'column' : 'row justify-between'} items-center q-mb-md q-px-md`"
     >
       <div
         :class="`column ${$q.screen.lt.sm ? 'justify-center' : 'justify-start'} q-mb-sm q-mr-md`"
@@ -286,7 +286,7 @@ onMounted(async () => {
 <style scoped lang="scss">
 .profile_add_card {
   &_body {
-    min-height: 94vh;
+    min-height: 89vh;
   }
   &_card_display {
     border-color: $grey-5;

@@ -20,6 +20,20 @@ const sessionUser = ref<IUser>({} as IUser);
 const isLoading = ref(true);
 const isUserMenuOpen = ref(false);
 const timerId = ref<NodeJS.Timeout>();
+const navigation = ref([
+  {
+    label: t('layouts.main_layout.navigation.cards'),
+    action: async () => {
+      await $router.push(`/cards`);
+    },
+  },
+  {
+    label: t('layouts.main_layout.navigation.trades'),
+    action: async () => {
+      await $router.push(`/trades`);
+    },
+  },
+]);
 const sessionUserMenuOptions = [
   {
     label: t('layouts.main_layout.profile'),
@@ -102,63 +116,77 @@ onMounted(async () => {
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar class="bg-secondary text-white q-px-md">
-        <q-toolbar-title class="text-primary text-bold">
-          <span class="cursor-pointer" @click="$router.push('/')">
-            YTM
-            <q-tooltip>
-              <template v-slot:default>
-                <span class="ytm-font-sm"> Yu-gi-oh Trade Marketplace </span>
-              </template>
-            </q-tooltip>
-          </span>
-        </q-toolbar-title>
-
-        <div v-if="!isLoading">
-          <q-btn
-            v-if="!sessionUser.id"
-            class="bg-primary text-white"
-            rounded
-            label="login"
-            @click="openLoginCard()"
-          />
-
-          <div
-            v-else-if="sessionUser.id"
-            class="row justify-end items-center q-gutter-x-sm cursor-pointer"
-            @mouseenter="keepUserMenuOpen()"
-            @mouseleave="closeUserMenuDebounced"
-          >
-            <span class="ellipsis gt-xs text-right ytm-font-sm" style="min-width: 130px">
-              {{ sessionUser.name }}
+      <div class="bg-secondary text-white q-px-md">
+        <q-toolbar class="">
+          <q-toolbar-title class="text-primary text-bold">
+            <span class="cursor-pointer" @click="$router.push('/')">
+              YTM
+              <q-tooltip>
+                <template v-slot:default>
+                  <span class="ytm-font-sm"> Yu-gi-oh Trade Marketplace </span>
+                </template>
+              </q-tooltip>
             </span>
-            <!-- <q-btn round> -->
-            <q-avatar text-color="primary" icon="fa-solid fa-circle-user" size="3.4375 rem" />
-            <!-- </q-btn> -->
+          </q-toolbar-title>
 
-            <q-menu
-              v-model="isUserMenuOpen"
-              fit
-              square
-              @mouseenter="keepUserMenuOpen"
+          <div v-if="!isLoading">
+            <q-btn
+              v-if="!sessionUser.id"
+              class="bg-primary text-white"
+              rounded
+              label="login"
+              @click="openLoginCard()"
+            />
+
+            <div
+              v-else-if="sessionUser.id"
+              class="row justify-end items-center q-gutter-x-sm cursor-pointer"
+              @mouseenter="keepUserMenuOpen()"
               @mouseleave="closeUserMenuDebounced"
             >
-              <q-list class="bg-secondary" style="min-width: 100px">
-                <q-item
-                  v-for="(option, i) in sessionUserMenuOptions"
-                  :key="`option-${i}`"
-                  class="text-white"
-                  clickable
-                  @click="option.action()"
-                >
-                  <q-item-section>{{ option.label }}</q-item-section>
-                </q-item>
-                <q-separator />
-              </q-list>
-            </q-menu>
+              <span class="ellipsis gt-xs text-right ytm-font-sm" style="min-width: 130px">
+                {{ sessionUser.name }}
+              </span>
+
+              <q-avatar text-color="primary" icon="fa-solid fa-circle-user" size="3.4375 rem" />
+
+              <q-menu
+                v-model="isUserMenuOpen"
+                fit
+                square
+                @mouseenter="keepUserMenuOpen"
+                @mouseleave="closeUserMenuDebounced"
+              >
+                <q-list class="bg-secondary" style="min-width: 100px">
+                  <q-item
+                    v-for="(option, i) in sessionUserMenuOptions"
+                    :key="`option-${i}`"
+                    class="text-white"
+                    clickable
+                    @click="option.action()"
+                  >
+                    <q-item-section>{{ option.label }}</q-item-section>
+                  </q-item>
+                  <q-separator />
+                </q-list>
+              </q-menu>
+            </div>
           </div>
-        </div>
-      </q-toolbar>
+        </q-toolbar>
+        <q-toolbar>
+          <div class="col-12 row justify-around items-center q-px-md">
+            <q-btn
+              v-for="option in navigation"
+              :key="`navigation-${option}`"
+              flat
+              color="accent"
+              no-caps
+              :label="option.label"
+              @click="option.action()"
+            />
+          </div>
+        </q-toolbar>
+      </div>
     </q-header>
 
     <q-page-container>
