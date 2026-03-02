@@ -30,8 +30,8 @@ const isTokenExpired = (token: string) => {
   try {
     if (!token) return true;
     const jwd = jwtDecode<{ exp: number }>(token);
-    const currentTime = Date.now() / 1000;
-    if (jwd != undefined) return jwd.exp < currentTime;
+    const currentTime = Date.now();
+    if (jwd != undefined) return jwd.exp * 1000 < currentTime;
     return true;
   } catch (error) {
     console.log(error);
@@ -51,20 +51,6 @@ const removeAccessToken = () => {
   localStorage.removeItem('access_token');
 };
 
-const getLoggedUser = async () => {
-  try {
-    const token = getAccessToken();
-    const resp = await http.get('/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return resp.data;
-  } catch (error) {
-    return error;
-  }
-};
-
 export default {
   login,
   logout,
@@ -73,5 +59,4 @@ export default {
   setAccessToken,
   getAccessToken,
   removeAccessToken,
-  getLoggedUser,
 };

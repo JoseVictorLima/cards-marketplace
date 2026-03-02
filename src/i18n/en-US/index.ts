@@ -42,6 +42,26 @@ export default {
       confirm_password: 'Passwords are different',
     },
   },
+  profile: {
+    cards: {
+      title: 'Cards',
+      title_session_user: 'My Cards',
+      add: 'Add card',
+      no_cards: 'No cards found',
+    },
+    add_cards: {
+      title: 'Add cards',
+      info: 'Select the cards you wish to add to your account.',
+      add: 'Add',
+      no_cards: 'No cards found',
+      confirm: {
+        title: 'Review selected cards',
+        description: 'Description:',
+        remove: 'Remove Card',
+        save: 'Confirm',
+      },
+    },
+  },
   components: {
     card: {
       description: 'Description',
@@ -58,16 +78,20 @@ export default {
   },
   layouts: {
     main_layout: {
+      profile: 'My profile',
       logout: 'Logout',
     },
   },
   success: {
     register: 'Registration completed',
+    add_card: 'Cards added',
   },
   errors: {
-    fetch_cards: "Ops! We couldn't load the cards right now.",
+    get_cards: "Ops! We couldn't load the cards right now.",
     login_generic: 'Ops! Unable to log in right now.',
     get_user_data: 'Ops! Unable to load the user information. Please try again later.',
     register_generic: 'Ops! Registration was not possible. Please try again later.',
+    get_available_cards: 'It was not possible to load more cards.',
+    add_card: 'Unable to add the selected cards! Please try again later.',
   },
 };

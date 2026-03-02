@@ -5,27 +5,41 @@ import cardDetails from './CardDetails.vue';
 
 interface props {
   card: ICard;
+  size?: 'sm' | 'md';
+  noDetails?: boolean;
+  imageOnly?: boolean;
 }
 
 const props = withDefaults(defineProps<props>(), {
   card: () => {
     return {} as ICard;
   },
+  size: 'md',
+  noDetails: false,
+  imageOnly: false,
 });
 
 const card = ref(props.card);
 const isCardDetailsOpen = ref(false);
 </script>
 <template>
-  <div class="card_body row justify-center items-start q-pa-sm" aria-hidden="true">
+  <div :class="`card_body_${size} row justify-center items-start q-pa-sm`" aria-hidden="true">
     <q-img
       :src="card.imageUrl"
-      class="card_image cursor-pointer"
+      :class="`col-12 card_image_${size} ${noDetails ? 'no-pointer-events' : 'cursor-pointer'}`"
       @click="isCardDetailsOpen = true"
     />
-    <h3 class="col-12 card_name q-my-none q-px-sm ellipsis text-left">
-      {{ card.name }}
-      <q-tooltip>{{ card.name }}</q-tooltip>
+    <h3 v-if="!imageOnly" :class="`col-12 ytm-font-${size} q-my-none row justify-start`">
+      <span class="ellipsis">
+        {{ card.name }}
+        <q-tooltip>
+          <template v-slot:default>
+            <span class="ytm-font-sm">
+              {{ card.name }}
+            </span>
+          </template>
+        </q-tooltip>
+      </span>
     </h3>
   </div>
 
@@ -37,22 +51,49 @@ const isCardDetailsOpen = ref(false);
 .card {
   &_body {
     position: relative;
-    max-width: 220px;
-    min-height: 220px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: rgba(79, 245, 79, 0);
+    &_sm {
+      @extend .card_body;
+      max-width: 120px;
+      min-height: 160px;
+    }
+    &_md {
+      @extend .card_body;
+      max-width: 180px;
+      min-height: 220px;
+    }
   }
-  &_body:hover {
-    border-color: $primary;
-  }
+  // &-border {
+  //   border-width: 2px;
+  //   border-style: solid;
+  //   border-color: rgba(79, 245, 79, 0);
+  // }
+  // &_border:hover {
+  //   border-color: $primary;
+  // }
   &_image {
     height: auto;
-    width: 180px;
+    &_sm {
+      @extend .card_image;
+      width: 120px;
+    }
+    &_md {
+      @extend .card_image;
+      width: 180px;
+    }
   }
   &_name {
-    font-size: 1.4rem;
     font-weight: bold;
+    &_sm {
+      @extend .card_name;
+      font-size: 1.1rem;
+    }
+    &_md {
+      @extend .card_name;
+      font-size: 1.4rem;
+    }
+  }
+  &_tooltip {
+    font-size: 0.7rem !important;
   }
 }
 </style>

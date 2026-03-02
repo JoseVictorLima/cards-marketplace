@@ -48,7 +48,9 @@ async function login() {
   <div class="bg-white q-pa-md login_card_body ytm-rounded-md">
     <q-form class="q-gutter-y-lg" greedy @submit="login">
       <div class="justify-between items-center row">
-        <div class="text-h6 text-primary">{{ t('login.labels.login') }}</div>
+        <div class="ytm-font-lg text-primary">
+          <b>{{ t('login.labels.login') }}</b>
+        </div>
         <q-btn
           :disable="isLoadingLogin"
           color="secondary"

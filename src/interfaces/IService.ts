@@ -26,9 +26,13 @@ export default interface IService {
     getAccessToken: () => string;
     removeAccessToken: () => void;
     isTokenExpired: (token: string) => boolean;
-    getLoggedUser: () => Promise<IUser>;
   };
   card: {
     getCards: (filter: { rpp: number; page: number }) => Promise<IGetCardsResult>;
+  };
+  me: {
+    getSessionUser: () => Promise<IUser>;
+    getSessionUserCards: () => Promise<ICard[]>;
+    addCards: (cardIds: string[]) => Promise<void>;
   };
 }

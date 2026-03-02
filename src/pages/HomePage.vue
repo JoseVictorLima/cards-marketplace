@@ -2,7 +2,7 @@
 import { onMounted, ref, inject } from 'vue';
 import type { ICard, IService, IUtils } from 'src/interfaces';
 import { useI18n } from 'vue-i18n';
-import cardComponent from 'src/components/card/CardView.vue';
+import cardView from 'src/components/card/CardView.vue';
 
 const $services = inject('$services') as IService;
 const $utils = inject('$utils') as IUtils;
@@ -14,7 +14,7 @@ const cardFilter = ref({
 const isCardLoading = ref(false);
 const cards = ref<ICard[]>([] as ICard[]);
 
-async function fetchCards() {
+async function getCards() {
   try {
     isCardLoading.value = true;
     await $services.card.getCards(cardFilter.value).then((result) => {
@@ -25,7 +25,7 @@ async function fetchCards() {
   } catch (error) {
     console.log(error);
     $utils.notify.negative({
-      message: t('errors.fetch_cards'),
+      message: t('errors.get_cards'),
       position: 'bottom',
     });
   } finally {
@@ -34,7 +34,7 @@ async function fetchCards() {
 }
 
 onMounted(async () => {
-  await fetchCards();
+  await getCards();
 });
 </script>
 <template>
@@ -49,11 +49,15 @@ onMounted(async () => {
       <div v-else>
         <div v-if="cards.length > 0" class="row justify-center q-px-md">
           <ul
-            :class="`col-12 col-md-11 row ${$q.screen.lt.md ? 'justify-center' : 'justify-start'} items-center`"
+            :class="`col-12 col-sm-11 row ${$q.screen.lt.sm ? 'justify-center' : 'justify-start'} items-center`"
             style="list-style: none; gap: 0.8rem; padding: 0; margin: 0"
           >
-            <li class="self-center" v-for="card in cards" :key="card.id">
-              <card-component :card="card" />
+            <li
+              :class="`${$q.screen.lt.sm ? 'col-12 row justify-center' : ''}`"
+              v-for="card in cards"
+              :key="card.id"
+            >
+              <card-view :card="card" />
             </li>
           </ul>
         </div>
@@ -71,7 +75,7 @@ onMounted(async () => {
 <style scoped lang="scss">
 .homepage {
   &_body {
-    min-height: 100vh;
+    min-height: 94vh;
   }
   &_no_cards {
     font-size: 2rem;

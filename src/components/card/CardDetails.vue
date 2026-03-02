@@ -17,18 +17,20 @@ const { t } = useI18n();
 <template>
   <div class="card_details_body q-pa-md">
     <div class="row justify-between items-start">
-      <div class="col-12 col-md-6 row justify-center">
+      <div class="col-12 col-md-6 row justify-center q-mb-sm">
         <q-img :src="card.imageUrl" class="card_details_image" />
       </div>
 
-      <div class="col-12 col-md-6 row items-start content-stretch">
-        <h3 class="col-12 col-md-10 card_details_name q-my-sm text-left">{{ card.name }}</h3>
+      <div class="col-12 col-md-6 row items-start q-px-sm">
+        <span class="col-12 col-md-10 ytm-font-lg card_details_name q-mb-sm text-left">
+          {{ card.name }}
+        </span>
 
-        <div class="col-grow">
-          <span class="q-my-sm">
-            {{ t('components.card.description') }}
+        <div class="">
+          <span class="q-my-sm ytm-font-sm">
+            <b>{{ t('components.card.description') }}</b>
           </span>
-          <p class="bg-grey-4 q-pa-xs">{{ card.description }}</p>
+          <p class="card_details_description ytm-font-sm">{{ card.description }}</p>
         </div>
       </div>
     </div>
@@ -54,9 +56,11 @@ const { t } = useI18n();
     position: relative;
   }
   &_name {
-    font-size: 1.5rem;
     line-height: 1.5rem;
     font-weight: bold;
+  }
+  &_description {
+    white-space: pre-wrap;
   }
   &_image {
     height: auto;
