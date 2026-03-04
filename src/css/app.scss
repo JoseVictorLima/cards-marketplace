@@ -1,1 +1,27 @@
 // app global css in SCSS form
+.ytm {
+  &-rounded {
+    &-sm {
+      border-radius: 0.3125rem !important;
+    }
+    &-md {
+      border-radius: 0.625rem !important;
+    }
+  }
+  &-font {
+    &-sm {
+      font-size: 0.9rem;
+    }
+    &-md {
+      font-size: 1.1rem;
+    }
+    &-lg {
+      font-size: 1.6em;
+    }
+  }
+  &-not-found {
+    &-text {
+      font-size: 1.2rem;
+    }
+  }
+}

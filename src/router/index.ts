@@ -6,6 +6,8 @@ import {
   createWebHistory,
 } from 'vue-router';
 import routes from './routes';
+import { inject } from 'vue';
+import type { IService } from 'src/interfaces';
 
 /*
  * If not building with SSR mode, you can
@@ -31,6 +33,18 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+  });
+
+  Router.beforeEach((to) => {
+    const isPublicRoute = to.meta.public as boolean;
+    const $services = inject('$services') as IService;
+    const token = $services.authentication.getAccessToken();
+    const isExpired = $services.authentication.isTokenExpired(token);
+    if (isExpired) {
+      $services.authentication.removeAccessToken();
+      // If the user is not accessing a public route and is not logged in, they will be redirected to the HomePage.
+      if (!isPublicRoute) return { path: '/' };
+    }
   });
 
   return Router;

@@ -48,7 +48,9 @@ export default defineConfigWithVueTs(
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-
+      parserOptions: {
+        projectService: true,
+      },
       globals: {
         ...globals.browser,
         ...globals.node, // SSR, Electron, config files
