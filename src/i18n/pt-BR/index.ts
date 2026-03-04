@@ -156,6 +156,9 @@ export default {
       },
     },
   },
+  footer: {
+    info: '©2026 YTM Ltda.',
+  },
   not_found: {
     info: 'Ops. A página que você procura não foi encontrada...',
     button: 'Voltar para página inicial',
