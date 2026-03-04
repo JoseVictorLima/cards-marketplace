@@ -62,7 +62,7 @@ export default {
   },
   components: {
     card: {
-      description: 'Descrição',
+      description: 'Descrição:',
     },
   },
   utils: {

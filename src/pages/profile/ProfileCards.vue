@@ -84,13 +84,12 @@ onMounted(async () => {
     <!-- Loading -->
 
     <div v-else class="">
-      <div v-if="pageUserCards.length > 0">
+      <div v-if="pageUserCards.length > 0" class="row justify-center">
         <ul
-          :class="`col-xs-12 col-sm-11 row ${$q.screen.lt.sm ? 'justify-center' : 'justify-start'} items-center`"
-          style="list-style: none; gap: 0.8rem; padding: 0; margin: 0"
+          :class="`col-xs-12 col-sm-11 row ${$q.screen.lt.sm ? 'justify-center' : 'justify-start'} items-center profile_card_list`"
         >
           <li
-            :class="`${$q.screen.lt.sm ? 'col-12 row justify-center' : ''}`"
+            :class="`${$q.screen.lt.sm ? 'col-12 row justify-center' : ''} profile_card_list_item`"
             v-for="card in pageUserCards"
             :key="card.id"
           >
@@ -108,3 +107,17 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+<style scoped lang="scss">
+.profile_card {
+  &_list {
+    list-style: none;
+    gap: 0.8rem;
+    padding: 0;
+    margin: 0;
+    max-width: 70rem;
+    &_item {
+      max-width: 13rem;
+    }
+  }
+}
+</style>

@@ -43,10 +43,6 @@ async function getLoggedUser() {
     if (sessionUser.value && sessionUser.value.id) await getUserCards();
   } catch (error) {
     console.log(error);
-    $utils.notify.negative({
-      message: t('errors.get_user_data'),
-      position: 'bottom',
-    });
   }
 }
 

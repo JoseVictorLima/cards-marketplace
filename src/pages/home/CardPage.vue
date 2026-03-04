@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, inject } from 'vue';
+import { onMounted, ref, inject, provide } from 'vue';
 import type { ICard, IService, IStores, IUser, IUtils } from 'src/interfaces';
 import { useI18n } from 'vue-i18n';
 import cardView from 'src/components/card/CardView.vue';
@@ -21,6 +21,8 @@ const sessionUser = ref({} as IUser);
 const sessionUserCards = ref([] as ICard[]);
 const hoverItem = ref('');
 const keyTradeButton = ref();
+// Allows the user to add the card when viewing the details
+provide('$allow-details-trade', true);
 
 async function loading() {
   isCardLoading.value = true;
@@ -32,7 +34,9 @@ async function loading() {
 async function getLoggedUser() {
   try {
     sessionUser.value = await $utils.sessionUser.getLoggedUser();
-    if (sessionUser.value && sessionUser.value.id) await getUserCards();
+    if (sessionUser.value && sessionUser.value.id) {
+      await getUserCards();
+    }
   } catch (error) {
     console.log(error);
   }
