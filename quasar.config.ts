@@ -51,7 +51,7 @@ export default defineConfig((ctx) => {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: 'https://JoseVictorLima.github.io/',
+      publicPath: ctx.prod ? 'https://JoseVictorLima.github.io/' : '/',
       // analyze: true,
       // env: {},
       // rawDefine: {}
