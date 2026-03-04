@@ -196,6 +196,7 @@ onMounted(async () => {
               class="row justify-end items-center q-gutter-x-sm cursor-pointer"
               @mouseenter="keepUserMenuOpen()"
               @mouseleave="closeUserMenuDebounced"
+              @click="$router.push(`/profile/${sessionUser.name}`)"
             >
               <span class="ellipsis gt-xs text-right ytm-font-sm" style="min-width: 130px">
                 {{ sessionUser.name }}
@@ -301,7 +302,7 @@ onMounted(async () => {
 
     <q-footer>
       <q-toolbar class="bg-secondary q-pa-md">
-        <div class="ytm-font-sm" style="min-height: 100px">©2026 YTM Limitado</div>
+        <div class="ytm-font-sm" style="min-height: 100px">{{ t('footer.info') }}</div>
       </q-toolbar>
     </q-footer>
 

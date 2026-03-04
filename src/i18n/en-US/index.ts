@@ -160,6 +160,9 @@ export default {
       },
     },
   },
+  footer: {
+    info: '©2026 YTM Ltd.',
+  },
   not_found: {
     info: "Oops. The page you're looking for wasn't found...",
     button: 'Return to homepage',
