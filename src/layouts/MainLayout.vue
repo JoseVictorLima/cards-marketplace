@@ -177,11 +177,8 @@ onMounted(async () => {
     <q-header elevated>
       <div class="bg-secondary row text-white q-px-md">
         <q-toolbar class="row justify-between">
-          <span
-            class="ytm-font-lg cursor-pointer text-primary text-bold"
-            @click="$router.push('/')"
-          >
-            YTM
+          <span class="cursor-pointer" @click="$router.push('/')">
+            <q-img class="col-auto" src="~/assets/ytm_logo.svg" width="3rem" height="auto" />
             <q-tooltip>
               <template v-slot:default>
                 <span class="ytm-font-sm"> Yu-gi-oh Trade Marketplace </span>

@@ -112,7 +112,9 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <div class="column q-pa-md profile_add_card_body bg-grey-2">
+  <div
+    :class="`column  ${$q.screen.lt.sm ? 'q-px-xl q-py-md' : 'q-pa-md'} profile_add_card_body bg-grey-2`"
+  >
     <div
       :class="` ${$q.screen.lt.sm ? 'column' : 'row justify-between'} items-center q-mb-md q-px-md`"
     >
@@ -158,17 +160,27 @@ onMounted(async () => {
         </div>
 
         <q-scroll-area v-else class="absolute-full q-pa-sm">
-          <q-infinite-scroll :initial-index="1" @load="getAvailableCards">
-            <div class="row">
-              <div v-for="card in avaliableCards" :key="card.id">
+          <q-infinite-scroll
+            :initial-index="1"
+            @load="getAvailableCards"
+            class="row justify-center"
+          >
+            <ul
+              :class="`row profile_add_card_card_display_list ${$q.screen.lt.sm ? 'justify-center' : ''}`"
+            >
+              <li
+                v-for="card in avaliableCards"
+                :key="card.id"
+                class="profile_add_card_card_display_list_item"
+              >
                 <div
                   :class="`q-px-sm cursor-pointer profile_add_card_card_border ${isCardSelected(card.id) ? 'profile_add_card_card_selected profile_add_card_card_border_selected' : ''}`"
                   @click="isCardSelected(card.id) ? removeSelectedCard(card.id) : selectCard(card)"
                 >
                   <card-view :card="card" size="md" no-details />
                 </div>
-              </div>
-            </div>
+              </li>
+            </ul>
 
             <template v-slot:loading>
               <div class="row justify-center q-mt-sm">
@@ -295,6 +307,16 @@ onMounted(async () => {
     border-width: 2px;
     background-color: $grey-4;
     max-height: 75vh;
+    &_list {
+      list-style: none;
+      gap: 0.8rem;
+      padding: 0;
+      margin: 0;
+      max-width: 70rem;
+      &_item {
+        max-width: 13rem;
+      }
+    }
   }
   &_card {
     &_border {
