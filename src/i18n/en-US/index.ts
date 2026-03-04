@@ -10,6 +10,7 @@ export default {
       email: 'Email',
       password: 'Password',
       submit: 'Login',
+      register: 'Create account',
     },
     rules: {
       email: 'Email cannot be empty',
@@ -142,6 +143,10 @@ export default {
       navigation: {
         cards: 'Cards',
         trades: 'Trades',
+      },
+      translation: {
+        english: 'English',
+        portuguese: 'Portuguese',
       },
     },
   },
