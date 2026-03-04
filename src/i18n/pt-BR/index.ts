@@ -147,6 +147,10 @@ export default {
       },
     },
   },
+  not_found: {
+    info: 'Ops. A página que você procura não foi encontrada...',
+    button: 'Voltar para página inicial',
+  },
   success: {
     register: 'Cadastro concluído.',
     add_card: 'Cartas adicionadas.',
