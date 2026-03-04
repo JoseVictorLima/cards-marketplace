@@ -9,7 +9,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
 const $q = useQuasar();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const $services = services;
 const $stores = inject('$stores') as IStores;
 const $utils = inject('$utils') as IUtils;
@@ -20,7 +20,9 @@ const isRegisterCardOpen = ref(false);
 const sessionUser = ref<IUser>({} as IUser);
 const isLoading = ref(true);
 const isUserMenuOpen = ref(false);
-const timerId = ref<NodeJS.Timeout>();
+const isTranslationMenuOpen = ref(false);
+const userMenuTimerId = ref<NodeJS.Timeout>();
+const translationMenuTimerId = ref<NodeJS.Timeout>();
 const navigation = ref([
   {
     label: t('layouts.main_layout.navigation.trades'),
@@ -49,21 +51,56 @@ const sessionUserMenuOptions = [
     },
   },
 ];
+const translationMenuOption = [
+  {
+    label: t('layouts.main_layout.translation.portuguese'),
+    action: () => {
+      if (locale.value != 'pt-BR') {
+        localStorage.setItem('language', 'pt-BR');
+        $router.go(0);
+      }
+    },
+  },
+  {
+    label: t('layouts.main_layout.translation.english'),
+    action: () => {
+      if (locale.value != 'en-US') {
+        localStorage.setItem('language', 'en-US');
+        $router.go(0);
+      }
+    },
+  },
+];
 
 const cartNumber = ref(0);
 
 // Allows the user menu to remain active when the cursor moves from the menu to the items and vice versa.
 const keepUserMenuOpen = () => {
-  if (timerId.value) {
-    clearTimeout(timerId.value);
+  if (userMenuTimerId.value) {
+    clearTimeout(userMenuTimerId.value);
   }
   if (!isUserMenuOpen.value) isUserMenuOpen.value = true;
 };
 
 // Closes the user menu after a specified period of time.
 const closeUserMenuDebounced = () => {
-  timerId.value = setTimeout(() => {
+  userMenuTimerId.value = setTimeout(() => {
     isUserMenuOpen.value = false;
+  }, 50);
+};
+
+// Allows the transtation menu to remain active when the cursor moves from the menu to the items and vice versa.
+const keepTranslationMenuOpen = () => {
+  if (translationMenuTimerId.value) {
+    clearTimeout(translationMenuTimerId.value);
+  }
+  if (!isTranslationMenuOpen.value) isTranslationMenuOpen.value = true;
+};
+
+// Closes the transtation menu after a specified period of time.
+const closeTranslationMenuDebounced = () => {
+  translationMenuTimerId.value = setTimeout(() => {
+    isTranslationMenuOpen.value = false;
   }, 50);
 };
 
@@ -152,14 +189,10 @@ onMounted(async () => {
             </q-tooltip>
           </span>
 
-          <div v-if="!isLoading" class="row justify-center q-gutter-x-sm">
-            <q-btn
-              v-if="!sessionUser.id"
-              class="bg-primary text-white"
-              rounded
-              label="login"
-              @click="openLoginCard()"
-            />
+          <div v-if="!isLoading" class="row justify-center items-center q-gutter-x-sm">
+            <div v-if="!sessionUser.id" class="row items-center">
+              <q-btn class="bg-primary text-white" rounded label="login" @click="openLoginCard()" />
+            </div>
 
             <div
               v-else-if="sessionUser.id"
@@ -195,23 +228,58 @@ onMounted(async () => {
               </q-menu>
             </div>
 
-            <q-btn
-              flat
-              round
-              color="white"
-              icon="fa-solid fa-cart-shopping"
-              @click="$router.push('/cart')"
-            >
-              <q-badge
-                v-if="cartNumber > 0"
-                color="primary"
-                text-color="secondary"
-                floating
-                rounded
+            <div class="row items-center">
+              <q-btn
+                flat
+                round
+                color="white"
+                icon="fa-solid fa-globe"
+                @mouseenter="keepTranslationMenuOpen"
+                @mouseleave="closeTranslationMenuDebounced"
               >
-                <b>{{ cartNumber }}</b>
-              </q-badge>
-            </q-btn>
+                <q-menu
+                  v-model="isTranslationMenuOpen"
+                  square
+                  anchor="bottom left"
+                  self="top middle"
+                  @mouseenter="keepTranslationMenuOpen"
+                  @mouseleave="closeTranslationMenuDebounced"
+                >
+                  <q-list class="bg-secondary">
+                    <q-item
+                      v-for="option in translationMenuOption"
+                      :key="`translation-${option.label}`"
+                      clickable
+                      class="text-white"
+                      @click="option.action"
+                    >
+                      <q-item-section>{{ option.label }}</q-item-section>
+                    </q-item>
+                    <q-separator />
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </div>
+
+            <div class="row items-center">
+              <q-btn
+                flat
+                round
+                color="white"
+                icon="fa-solid fa-cart-shopping"
+                @click="$router.push('/cart')"
+              >
+                <q-badge
+                  v-if="cartNumber > 0"
+                  color="primary"
+                  text-color="secondary"
+                  floating
+                  rounded
+                >
+                  <b>{{ cartNumber }}</b>
+                </q-badge>
+              </q-btn>
+            </div>
           </div>
         </q-toolbar>
         <q-toolbar>

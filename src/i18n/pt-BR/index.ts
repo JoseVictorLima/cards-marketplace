@@ -7,6 +7,7 @@ export default {
       email: 'E-mail',
       password: 'Senha',
       submit: 'Login',
+      register: 'Criar conta',
     },
     rules: {
       email: 'E-mail não pode ser vazio',
@@ -139,6 +140,10 @@ export default {
       navigation: {
         cards: 'Cartas',
         trades: 'Trocas',
+      },
+      translation: {
+        english: 'Inglês',
+        portuguese: 'Português',
       },
     },
   },

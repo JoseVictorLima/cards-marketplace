@@ -81,7 +81,7 @@ async function login() {
         />
       </div>
 
-      <div class="row justify-around">
+      <div class="row justify-around items-center">
         <q-btn
           :disable="isLoadingLogin"
           :loading="isLoadingLogin"
@@ -93,10 +93,10 @@ async function login() {
         />
         <q-btn
           :disable="isLoadingLogin"
-          class="col-4"
+          class=""
           rounded
           color="secondary"
-          :label="'Criar conta'"
+          :label="t('login.labels.register')"
           @click="$emit('open-register')"
         />
       </div>
@@ -106,7 +106,7 @@ async function login() {
 <style scoped lang="scss">
 .login_card {
   &_body {
-    min-width: 400px;
+    min-width: 350px;
   }
 }
 </style>

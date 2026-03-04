@@ -1,5 +1,6 @@
 import { defineBoot } from '#q-app/wrappers';
 import { createI18n } from 'vue-i18n';
+import { Lang } from 'quasar';
 
 import messages from 'src/i18n';
 
@@ -24,8 +25,29 @@ declare module 'vue-i18n' {
 const i18n = createI18n({});
 
 export default defineBoot(({ app }) => {
+  // Sets the user's saved language as the current language.
+  const avaliableLangs = ['pt-BR', 'en-US'];
+  let lang = 'pt-BR';
+  const userLang = Lang.getLocale();
+  const localStorageLang = localStorage.getItem('language');
+  // Retrieves the user's local language and sets it if it is not saved in local storage
+  if (
+    (localStorageLang === null || localStorageLang === '') &&
+    userLang &&
+    avaliableLangs.includes(userLang)
+  ) {
+    lang = userLang;
+  }
+  if (
+    localStorageLang === null ||
+    localStorageLang === '' ||
+    !avaliableLangs.includes(localStorageLang)
+  ) {
+    localStorage.setItem('language', lang);
+  } else lang = localStorageLang;
+
   const i18n = createI18n<{ message: MessageSchema }, MessageLanguages>({
-    locale: 'pt-BR',
+    locale: lang,
     legacy: false,
     messages,
   });
