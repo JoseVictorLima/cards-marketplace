@@ -16,23 +16,26 @@ const { t } = useI18n();
 </script>
 <template>
   <div class="card_details_body q-pa-md">
-    <div class="row justify-between items-start">
+    <div class="row justify-between items-start relative-position">
       <div class="col-12 col-md-6 row justify-center q-mb-sm">
         <q-img :src="card.imageUrl" class="card_details_image" />
       </div>
 
-      <div class="col-12 col-md-6 row items-start q-px-sm">
+      <div class="col-12 col-md-6 row items-start q-px-sm full-height">
         <span class="col-12 col-md-10 ytm-font-lg card_details_name q-mb-sm text-left">
           {{ card.name }}
         </span>
 
-        <div class="">
+        <div class="col-12">
           <span class="q-my-sm ytm-font-sm">
             <b>{{ t('components.card.description') }}</b>
           </span>
           <p class="card_details_description ytm-font-sm">{{ card.description }}</p>
         </div>
       </div>
+    </div>
+    <div class="col-12 row justify-start q-mt-sm q-px-sm">
+      <q-btn class="card_details_image" color="primary" icon="check" label="OK" />
     </div>
     <div class="card_details_close_btn">
       <q-btn

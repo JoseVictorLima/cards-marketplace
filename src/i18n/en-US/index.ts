@@ -150,6 +150,10 @@ export default {
       },
     },
   },
+  not_found: {
+    info: "Oops. The page you're looking for wasn't found...",
+    button: 'Return to homepage',
+  },
   success: {
     register: 'Registration completed',
     add_card: 'Cards added',
