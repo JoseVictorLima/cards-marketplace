@@ -10,9 +10,14 @@ export const userStore = defineStore('user', () => {
 
   async function setSessionUser() {
     const $services = services;
-    const resp = await $services.me.getSessionUser();
-    if (resp && resp.id) sessionUser.value = resp;
-    else sessionUser.value = {} as IUser;
+    try {
+      const resp = await $services.me.getSessionUser();
+      if (resp && resp.id) sessionUser.value = resp;
+      else sessionUser.value = {} as IUser;
+    } catch (error) {
+      console.log(error);
+      sessionUser.value = {} as IUser;
+    }
   }
 
   function resetSessionUser() {

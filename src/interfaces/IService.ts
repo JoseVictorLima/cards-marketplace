@@ -45,6 +45,7 @@ export default interface IService {
   };
   trades: {
     getTrades: (filter: { rpp: number; page: number }) => Promise<IGetTradesresult>;
+    saveTrade: (offering: ICard[], receiving: ICard[]) => Promise<{ tradeId: string }>;
     deleteTrade: (tradeId: string) => Promise<void>;
   };
 }

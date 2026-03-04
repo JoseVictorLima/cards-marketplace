@@ -4,7 +4,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    redirect: '/cards',
+    redirect: '/trades',
     children: [
       { path: 'cards', component: () => import('pages/home/CardPage.vue'), meta: { public: true } },
       {
@@ -28,6 +28,18 @@ const routes: RouteRecordRaw[] = [
         path: 'add-card',
         component: () => import('pages/profile/ProfileAddCard.vue'),
         meta: { public: false },
+      },
+    ],
+  },
+
+  {
+    path: '/cart',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/cart/CartPage.vue'),
+        meta: { public: true },
       },
     ],
   },

@@ -111,8 +111,8 @@ onMounted(async () => {
   isAddCardLoading.value = false;
 });
 </script>
-<template enter-class="bg-grey-3">
-  <div class="column q-pa-md profile_add_card_body">
+<template>
+  <div class="column q-pa-md profile_add_card_body bg-grey-2">
     <div
       :class="` ${$q.screen.lt.sm ? 'column' : 'row justify-between'} items-center q-mb-md q-px-md`"
     >
@@ -286,13 +286,15 @@ onMounted(async () => {
 <style scoped lang="scss">
 .profile_add_card {
   &_body {
-    min-height: 89vh;
+    height: 100%;
+    min-height: 97.3vh;
   }
   &_card_display {
     border-color: $grey-5;
     border-style: solid;
     border-width: 2px;
     background-color: $grey-4;
+    max-height: 75vh;
   }
   &_card {
     &_border {

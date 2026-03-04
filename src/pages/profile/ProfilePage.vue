@@ -65,8 +65,8 @@ onMounted(async () => {
   await loadPage();
 });
 </script>
-<template class="bg-grey-3">
-  <div class="column profile_body">
+<template>
+  <div class="column profile_body bg-grey-3">
     <!-- Loading -->
     <div
       v-if="isProfileLoading"
@@ -104,7 +104,8 @@ onMounted(async () => {
 <style scoped lang="scss">
 .profile {
   &_body {
-    min-height: 94vh;
+    height: 100%;
+    min-height: 97.3vh;
   }
   &_card {
     min-height: 200px;

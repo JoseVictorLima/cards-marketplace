@@ -13,7 +13,7 @@ const tradeFilter = ref({
   more: true,
 });
 const itemsPerPage = ref([10, 20, 50]);
-const isLoadingCards = ref(false);
+const isLoadingGetTrades = ref(false);
 const isTradesLoading = ref(false);
 const trades = ref([] as ITrade[]);
 const sessionUser = ref({} as IUser);
@@ -37,7 +37,8 @@ async function getLoggedUser() {
 }
 
 async function getTrades(directive?: 'next' | 'previous') {
-  isLoadingCards.value = true;
+  isLoadingGetTrades.value = true;
+  window.scrollTo(0, 0.01);
   try {
     switch (directive) {
       case 'next':
@@ -51,15 +52,18 @@ async function getTrades(directive?: 'next' | 'previous') {
         break;
     }
     const resp = await $services.trades.getTrades(tradeFilter.value);
-    if (resp && resp.list && resp.more) {
+    if (resp && resp.list) {
       trades.value = resp.list;
       tradeFilter.value.more = resp.more;
-      window.scrollTo(0, 0.01);
     }
   } catch (error) {
     console.log(error);
+    $utils.notify.negative({
+      message: t('errors.load_trade'),
+      position: 'bottom',
+    });
   }
-  isLoadingCards.value = false;
+  isLoadingGetTrades.value = false;
 }
 
 function openDeleteTradeDialog(tradeId: string) {
@@ -112,8 +116,8 @@ onMounted(async () => {
   await loading();
 });
 </script>
-<template class="bg-grey-3">
-  <div class="q-px-sm q-py-md relative-position home_trade_body">
+<template>
+  <div class="q-px-sm q-py-md relative-position home_trade_body bg-grey-2">
     <div class="q-mt-sm q-mb-lg">
       <span class="text-primary q-px-md ytm-font-lg"
         ><b>{{ t('home.trades.title') }}</b></span
@@ -122,7 +126,7 @@ onMounted(async () => {
 
     <!-- Top Pagination -->
     <div
-      v-if="!isLoadingCards && trades.length > 0"
+      v-if="!isLoadingGetTrades && trades.length > 0"
       :class="`q-my-md q-px-md col-12 row ${$q.screen.lt.sm ? 'justify-center q-gutter-sm' : 'justify-between'}`"
     >
       <div class="row items-center q-gutter-x-sm">
@@ -174,7 +178,10 @@ onMounted(async () => {
     <!-- Top Pagination -->
 
     <!-- Loading -->
-    <div v-if="isTradesLoading || isLoadingCards" class="q-pa-md absolute-full flex flex-center">
+    <div
+      v-if="isTradesLoading || isLoadingGetTrades"
+      class="q-pa-md absolute-full flex flex-center"
+    >
       <q-spinner color="primary" size="50px" />
     </div>
     <!-- Loading -->
@@ -194,7 +201,7 @@ onMounted(async () => {
                   <b>{{ t('home.trades.date') }}</b> {{ showDate(trade.createdAt) }}</span
                 >
               </div>
-              <div v-if="trade.userId === sessionUser.id" class="q-mx-sm">
+              <div v-if="sessionUser && trade.userId === sessionUser.id" class="q-mx-sm">
                 <q-btn
                   flat
                   round
@@ -244,16 +251,16 @@ onMounted(async () => {
         </ul>
       </div>
 
-      <div v-else class="fullscreen flex flex-center">
+      <div v-else class="absolute-full flex flex-center">
         <div class="text-center q-py-md text-grey-7">
-          <h3 class="home_card_no_cards ytm-font-md">{{ t('home.trades.no_trades') }}</h3>
+          <h3 class="ytm-font-md">{{ t('home.trades.no_trades') }}</h3>
           <q-icon name="fa-regular fa-face-frown" size="xl" />
         </div>
       </div>
 
       <!-- Bottom Pagination -->
       <div
-        v-if="!isLoadingCards && trades.length > 0"
+        v-if="!isLoadingGetTrades && trades.length > 0"
         :class="`q-my-md q-px-md col-12 row items-center ${$q.screen.lt.sm ? 'justify-center' : 'justify-end'} q-gutter-x-sm`"
       >
         <q-btn
@@ -331,7 +338,7 @@ ul {
 .home_trade {
   &_body {
     height: 100%;
-    min-height: 94vh;
+    min-height: 97.3vh;
   }
   &_list {
     gap: 0.8rem;
