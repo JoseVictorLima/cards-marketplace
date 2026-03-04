@@ -9,6 +9,13 @@ const login = async (credentials = { email: '', password: '' }) => {
     const resp = await http.post(loginBaseUrl, credentials);
     return resp.data;
   } catch (error) {
+    if (typeof error === 'object' && error != null) {
+      if ('response' in error && error != null) {
+        if (typeof error.response === 'object' && error.response != null) {
+          if ('data' in error.response) return error.response.data;
+        }
+      }
+    }
     return error;
   }
 };

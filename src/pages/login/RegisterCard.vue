@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue';
+import { ref, inject, onMounted } from 'vue';
 import type { IService, IUtils } from 'src/interfaces';
 import { useI18n } from 'vue-i18n';
+
+interface IRetrieveLogin {
+  email: string;
+  password: string;
+}
 
 const $emit = defineEmits<{
   (e: 'close'): void;
@@ -28,6 +33,7 @@ const passwordRegex = {
   length: /^.{8,}$/,
 };
 const passwordErrorMessage = ref('');
+const recoveredLogins = ref([] as IRetrieveLogin[]);
 
 // Checks if password matches the regex and sets the error message to show on input
 function passwordValidator(inputValue: string): boolean {
@@ -72,6 +78,7 @@ async function register() {
         message: t('success.register'),
         position: 'bottom',
       });
+      saveRecoverLogin(newUser.email, newUser.password);
       $emit('login');
       $emit('close');
     }
@@ -85,6 +92,25 @@ async function register() {
   }
   isRegisterLoading.value = false;
 }
+
+// Save the last 20 logins of created accounts for recovery in case the user forgets their password
+function saveRecoverLogin(email: string, password: string) {
+  if (recoveredLogins.value.length >= 20) {
+    recoveredLogins.value.splice(0, 1);
+    recoveredLogins.value.push({ email, password });
+  } else {
+    recoveredLogins.value.push({ email, password });
+  }
+  localStorage.setItem('recoveredLogins', JSON.stringify(recoveredLogins.value));
+}
+
+onMounted(() => {
+  const storedLogin = localStorage.getItem('recoveredLogins');
+  if (storedLogin) {
+    const logins = JSON.parse(storedLogin);
+    recoveredLogins.value = logins as IRetrieveLogin[];
+  }
+});
 </script>
 <template>
   <div class="bg-white q-pa-md ytm-rounded-md register_card_body">
