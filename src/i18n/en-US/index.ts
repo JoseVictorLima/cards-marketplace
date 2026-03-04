@@ -11,10 +11,20 @@ export default {
       password: 'Password',
       submit: 'Login',
       register: 'Create account',
+      recover_password: 'Forgot my password',
     },
     rules: {
       email: 'Email cannot be empty',
       password: 'Password cannot be empty',
+    },
+    recover_password: {
+      title: 'Forgot your password?',
+      description:
+        "Don't worry! Enter the email you registered with and your password will be displayed.",
+      info: 'Note: The password can only be recovered if you registered using this same browser and have not deleted your local storage. Only up to 20 registrations are recoverable. If you create more than 20 registrations, the oldest ones will no longer be available.',
+      password: 'Password:',
+      cancel: 'Cancel',
+      recover: 'Recover',
     },
   },
   register: {
@@ -162,6 +172,7 @@ export default {
   },
   errors: {
     get_cards: 'Oops! It was not possible to load the cards.Please try again later.',
+    login_password: 'Incorrect password or email.',
     login_generic: 'Oops! Unable to log in right now.',
     get_user_data: 'Oops! Unable to load the user information. Please try again later.',
     get_user_cards:
@@ -172,5 +183,6 @@ export default {
     load_trade: 'Oops! Unable to load the trades. Please try again later.',
     delete_trade: 'Oops! Unable to delete the trade. Please try again later.',
     save_trade: 'Oops! Unable to complete your trade request. Please try again later.',
+    recover_password: 'Unable to recover the password.',
   },
 };

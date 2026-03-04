@@ -8,10 +8,19 @@ export default {
       password: 'Senha',
       submit: 'Login',
       register: 'Criar conta',
+      recover_password: 'Esqueci minha senha',
     },
     rules: {
       email: 'E-mail não pode ser vazio',
       password: 'Senha não pode ser vazia',
+    },
+    recover_password: {
+      title: 'Esqueceu sua senha?',
+      description: 'Não precisa se preocupar! Digite o e-mail cadastrado e sua senha será exibida.',
+      info: 'Obs: A senha só poderá ser recuperada caso tenha feito cadastro neste mesmo navegador e não tenha apagado o seu localstorage. Só são recuperaveis até 20 cadastros. Caso realize mais que 20 cadastros, os mais antigos não estarão disponíveis',
+      password: 'Senha:',
+      cancel: 'Cancelar',
+      recover: 'Recuperar',
     },
   },
   register: {
@@ -158,8 +167,9 @@ export default {
     save_trade: 'Solicitação de troca realizada.',
   },
   errors: {
-    get_cards: 'Ops! Não foi possível carregar as cartas. Tente mais tarde',
-    login_generic: 'Ops! Não foi possível fazer login. Tente mais tarde',
+    get_cards: 'Ops! Não foi possível carregar as cartas. Tente mais tarde.',
+    login_password: 'Senha ou e-mail incorretos.',
+    login_generic: 'Ops! Não foi possível fazer login. Tente mais tarde.',
     get_user_data: 'Ops! Não foi possível carregar as informações do usuário. Tente mais tarde.',
     get_user_cards: 'Ops! Não foi possível Carregar as cartas do usuario logado! Tente mais tarde.',
     register_generic: 'Ops! Não foi possível realizar o cadastro. Tente mais tarde.',
@@ -168,5 +178,6 @@ export default {
     load_trade: 'Ops! Não foi possível carregar as trocas. Tente mais tarde.',
     delete_trade: 'Ops! Não foi possível apagar a troca. Tente mais tarde.',
     save_trade: 'Ops! Não foi possível realizar a solicitação de troca. Tente mais tarde.',
+    recover_password: 'Não foi possível recuperar a senha.',
   },
 };
