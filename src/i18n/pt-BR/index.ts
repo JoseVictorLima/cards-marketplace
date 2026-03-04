@@ -70,25 +70,94 @@ export default {
       negative: 'Erro.',
     },
   },
-  homepage: {
-    no_cards: 'Nenhum card encontrado',
+  home: {
+    cards: {
+      title: 'Cartas disponíveis para troca',
+      no_cards: 'Nenhuma carta encontrada',
+      button: {
+        owns: 'Já possui',
+        cart: 'No carrinho',
+        trade: 'Trocar',
+      },
+    },
+    trades: {
+      title: 'Trocas Abertas',
+      filter: {
+        items_per_page: 'items por página',
+      },
+      pagination: {
+        previous: 'Anterior',
+        next: 'Próxima',
+      },
+      name: 'Solicitante:',
+      date: 'Data:',
+      offering: 'Oferecido:',
+      receiving: 'Recebido:',
+      no_trades: 'Nehuma troca encontrada',
+      delete: {
+        title: 'Apagar Troca',
+        description: 'Deseja realmente apagar esta troca?',
+        info: 'Esta ação não poderá ser desfeita!',
+        cancel: 'Cancelar',
+        delete: 'Apagar',
+      },
+    },
+  },
+  cart: {
+    title: 'Seu Carrinho',
+    description: 'Descrição:',
+    no_selected: 'Nenhuma carta selecionada',
+    submit: 'Finalizar',
+    receiving: {
+      title: 'Recebendo:',
+      invalid: 'Você já possui uma ou mais cartas selecionadas!',
+      info: {
+        prefix: 'Clique',
+        link: 'aqui',
+        suffix: 'para selecionar cartas que deseja receber',
+      },
+    },
+    offering: {
+      title: 'Oferecendo:',
+      invalid: 'Cartas não podem ser repetidas!',
+      info: 'Para efetuar a troca, adicione pelo menos uma carta sua',
+    },
+    select: {
+      title: 'Selecione cartas que deseja oferecer',
+      no_card: 'Você não possui cartas',
+      confirm: 'Confirmar',
+      info: {
+        prefix: 'É possível adicionar cartas no seu',
+        link: 'perfil',
+      },
+    },
   },
   layouts: {
     main_layout: {
       profile: 'Meu perfil',
       logout: 'Sair',
+      navigation: {
+        cards: 'Cartas',
+        trades: 'Trocas',
+      },
     },
   },
   success: {
-    register: 'Cadastro concluído',
-    add_card: 'Cartas adicionadas',
+    register: 'Cadastro concluído.',
+    add_card: 'Cartas adicionadas.',
+    delete_trade: 'Troca apagada.',
+    save_trade: 'Solicitação de troca realizada.',
   },
   errors: {
-    get_cards: 'Ops! Não conseguimos carregar os cards agora.',
-    login_generic: 'Ops! Não foi possível fazer login agora.',
+    get_cards: 'Ops! Não foi possível carregar as cartas. Tente mais tarde',
+    login_generic: 'Ops! Não foi possível fazer login. Tente mais tarde',
     get_user_data: 'Ops! Não foi possível carregar as informações do usuário. Tente mais tarde.',
-    register_generic: 'Ops! Não foi possível realizar o cadastro! Tente mais tarde.',
-    get_available_cards: 'Não foi possível carregar mais cartas.',
-    add_card: 'Não foi possível adicionar as cartas selecionadas! Tente mais tarde',
+    get_user_cards: 'Ops! Não foi possível Carregar as cartas do usuario logado! Tente mais tarde.',
+    register_generic: 'Ops! Não foi possível realizar o cadastro. Tente mais tarde.',
+    get_available_cards: 'Ops! Não foi possível carregar mais cartas.',
+    add_card: 'Ops! Não foi possível adicionar as cartas selecionadas. Tente mais tarde',
+    load_trade: 'Ops! Não foi possível carregar as trocas. Tente mais tarde.',
+    delete_trade: 'Ops! Não foi possível apagar a troca. Tente mais tarde.',
+    save_trade: 'Ops! Não foi possível realizar a solicitação de troca. Tente mais tarde.',
   },
 };
